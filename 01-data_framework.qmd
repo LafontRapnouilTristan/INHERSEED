@@ -9,6 +9,7 @@ INHERSEED aims to respect the FAIR principles for open science.
 To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles \@ref(fig:dframework).
 
 ```{r}
+#| echo: false
 knitr::include_graphics('./data/images/d_framework.png')
 ```
 

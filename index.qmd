@@ -5,6 +5,7 @@ editor: visual
 ---
 
 ```{r}
+#| echo: false
 knitr::include_graphics('./data/images/logo.png')
 ```
 
