@@ -8,5 +8,5 @@ CredentialsCreation.R
 .xlsx
 .csv
 .txt
-data/
+/data/
 /.quarto/
