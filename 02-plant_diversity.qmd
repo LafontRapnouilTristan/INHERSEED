@@ -87,7 +87,7 @@ try_request_traits%>%
 
 Then we requested TRY data access using our species and traits lists.
 
-####Release
+#### Release
 
 ```{r}
 try_release <- readr::read_tsv("data/TRY/release/41259_1905202519280_TRY_relaease/41259.txt")
