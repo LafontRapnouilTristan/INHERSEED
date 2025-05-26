@@ -6,7 +6,7 @@ editor: visual
 
 ```{r}
 #| echo: false
-knitr::include_graphics('./data/images/logo.png')
+knitr::include_graphics('./data/images/logo2.png')
 ```
 
 # Introduction {.unnumbered}
