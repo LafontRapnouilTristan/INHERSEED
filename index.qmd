@@ -1,0 +1,19 @@
+---
+title: "Introduction"
+format: html
+editor: visual
+---
+
+```{r}
+knitr::include_graphics('./data/images/logo.png')
+```
+
+# Introduction {.unnumbered}
+
+Plant microbial INHERitance across generations through SEEDs: impact of this primary inoculum on plant fitness and microbiota assembly
+
+This document acts as a wiki-like platform regarding all protocols and data treatment within the INHERSEED project. The project is lead by Marie Simonin (PI - [website](https://mariesimonin.weebly.com/), Tristan Lafont Rapnouil is a post-doc in charge of monitoring the project progress and data acquisition and, Mathilde Brunel is a technician involved in greenhouse managing and wetlab experimentations.
+
+While not all data and protocols can be hosted on Github, links to where they are actually findable are persented in this document.
+
+For any questions related to this project, you can contact [marie.simonin\@inrae.fr](mailto:marie.simonin@inrae.fr){.email} and/or [tristan.lafontrapnouil\@gmail.com](mailto:tristan.lafontrapnouil@gmail.com){.email}.

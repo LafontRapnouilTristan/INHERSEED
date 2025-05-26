@@ -1,0 +1,52 @@
+[
+  {
+    "objectID": "01-data_framework.html",
+    "href": "01-data_framework.html",
+    "title": "2  Data and FAIR principles",
+    "section": "",
+    "text": "Data framework\nINHERSEED aims to respect the FAIR principles for open science. To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles @ref(fig:dframework).\n\n\nCode\nknitr::include_graphics('./data/images/d_framework.png')\n\n\n\n\n\n\n\n\n\nTo ensure reproducibility data standard processing (bioinformatic pipeline and diagnostics) were embbeded in snakemake pipeline. R session info were also stored as text files available here. The Data Management Plan is hosted here.\nDeliverable of the project are:\n\nData, protocols and workflows:\n\n\ngithub hosted document. (Text)\nMetabarcoding dataset: amplicon sequencing dataset as .fastq for gyrB and ITS1 markers. (Dataset)\nSeed and plant phenotype as .csv. (Dataset)\nProcessing scripts and pipelines (Python, Bash and R). (Workflow)\nProtocols for all data acquisition (Text)\n\n\nResults:\n\n\nWP1:\nPlant taxonomy and traits influence on seed microbiota\nAssessment of microbial transmission from plants to seeds\nExploring phylosymbiosis on seed microbiota\nWP2:\nEvaluation of microbial transmission from seeds to seedlings\nInherited and non-inherited taxa transmission success\nExploring phylosymbiosis on seedling microbiota\nIdentification of microbial taxa with potential effects on seedling phenotypes\nWP3:\nExperimental validation of vertical transmission of inherited taxa\nIdentification of inherited taxa affecting plant fitness\nIdentification of inherited taxa influencing microbiota assembly\n\n#links to data info\n\n[Project proposal][document/full_proposal/aapg_20203-INHERSEED_full_proposal.pdf]\n[Original seeds sources][]\n\n[species list][]\n[suppliers][]\n\n[Seed phenotype][]\n\n[Seed pictures][]\n[TRAITOR software][]\n\n[DNA extractions][]\n\n[Seeds][]\n[Leaves][]\n[Roots][]\n[Soil][]\n\n[Plant phenotype][]\n[R script to download all datasets][]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data and FAIR principles</span>"
+    ]
+  },
+  {
+    "objectID": "02-plant_diversity.html",
+    "href": "02-plant_diversity.html",
+    "title": "3  Plant diversity",
+    "section": "",
+    "text": "Original seeds sources",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Plant diversity</span>"
+    ]
+  },
+  {
+    "objectID": "02-plant_diversity.html#species-list",
+    "href": "02-plant_diversity.html#species-list",
+    "title": "3  Plant diversity",
+    "section": "Species list",
+    "text": "Species list\nXX plant species were used in INHERSEED. This represent a challenge both to grow and monitor such diversity as well as to sample and properly phenotype plants and seeds varying tremendously in size, shapes and looks. Acknowledging this challenge we tried to adopt protocols and data viewing/analysis allowing to compare Arabidopsis, carrots or beans. That being said, we recognize that critics can still be made and our results should be regarded with the diversity-challenge in mind!\nThe full species list:\nWe focused on non-woody annual species and tried to have a good spread across the Angiosperm phylogeny:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Plant diversity</span>"
+    ]
+  },
+  {
+    "objectID": "02-plant_diversity.html#general-informations",
+    "href": "02-plant_diversity.html#general-informations",
+    "title": "3  Plant diversity",
+    "section": "General informations",
+    "text": "General informations\nIn order to interpret our results, we wanted to get as many information on our species from botany to chemistry.\n\nTRY\nFirst we identified a set of traits that may be found on the TRY database (Kattge et al. 2019). TRY requires manual requests and we used R to prepare our requests.\n\nRequest\nFirst check if our species have entries in TRY. Run this only the first time to get the list of TRY species:\n\n\nCode\n# download.file('https://try-db.org/dnld/TryAccSpecies.txt', destfile = \"data/TRY/TryAccSpecies.tsv\", method = \"wget\", extra = \"-r -p --random-wait\", quiet = T)\n\n\nThen look for our species:\n\n\nCode\n#get our species list\nspecies_list &lt;- readr::read_tsv(\"data/species_list_INHERSEED.tsv\")\n#check overlap and merge\ntry_sp &lt;- species_list %&gt;%\n  rename(scientific_cleaned = species_for_tree)%&gt;%\n  select(scientific_cleaned) %&gt;%\n  mutate(scientific_cleaned=ifelse(scientific_cleaned==\"Legousia veneris\",\"Legousia speculum-veneris\",scientific_cleaned))%&gt;% #rename that species properly\n  na.omit() %&gt;%\n  unique() %&gt;%\n  left_join(readr::read_tsv(\"data/TRY/TryAccSpecies.txt\"),\n            by = c(\"scientific_cleaned\" = \"AccSpeciesName\")\n  )\n\n#species not in try\ntry_sp%&gt;%\n  mutate(is_in_try=ifelse(is.na(AccSpeciesID),\"Not in TRY\",\"In Try\"))%&gt;%\n  ggplot(aes(x=is_in_try,fill=is_in_try))+\n  geom_bar(stat = \"count\")+\n  theme_minimal()+\n  ylab(\"Number of species\")+\n  xlab(\"\")+\n  theme(legend.position = \"none\",\n        text = element_text(face=\"bold\"))+\n  ggtitle(paste0(sum(!is.na(try_sp$AccSpeciesID)),\" species out of \", nrow(try_sp),\" are in TRY\"))\n\n\n\n\n\n\n\n\n\nNow we can build a request for TRY with our traits of interest. We handpicked from TRY traits list XX traits that were relevant to us.\n\n\nCode\ntry_request &lt;- try_sp%&gt;%\n  summarise(species_list=paste0(AccSpeciesID,collapse = \", \"))\ntry_request%&gt;%\n  readr::write_tsv(\"data/TRY/requests/TryReqSpecies.tsv\")\n\ntraits_try &lt;- readxl::read_xlsx(\"data/TRY/traits_of_interest/Traits repro TRY database.xlsx\")\ntry_request_traits &lt;- traits_try%&gt;%\n  filter(tokeep==\"y\")%&gt;%\n  select(TraitID)%&gt;%\n  summarise(traits_list=paste0(TraitID,collapse = \", \"))\ntry_request_traits%&gt;%\n  readr::write_tsv(\"data/TRY/requests/TryReqTraits.tsv\")\n# 41259 - ID of the first request\n\n\nThen we requested TRY data access using our species and traits lists.\n####Release\n\n\nCode\ntry_release &lt;- readr::read_tsv(\"data/TRY/release/41259_1905202519280_TRY_relaease/41259.txt\")\n\n\nNew names:\n• `` -&gt; `...29`\n\n\nWarning: One or more parsing issues, call `problems()` on your data frame for details,\ne.g.:\n  dat &lt;- vroom(...)\n  problems(dat)\n\n\nRows: 417530 Columns: 29\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \"\\t\"\nchr (16): LastName, FirstName, Dataset, SpeciesName, AccSpeciesName, TraitNa...\ndbl (11): DatasetID, AccSpeciesID, ObservationID, ObsDataID, TraitID, DataID...\nlgl  (2): RelUncertaintyPercent, ...29\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\nCode\ntry_release %&lt;&gt;%\n  select(AccSpeciesName, TraitName, StdValue) %&gt;%\n  rename(\n    species = AccSpeciesName,\n    trait = TraitName,\n    value = StdValue\n  ) %&gt;%\n  group_by(species, trait) %&gt;%\n  summarise(value = mean(as.numeric(value), na.rm = TRUE)) %&gt;%\n  tidyr::pivot_wider(values_from = \"value\", names_from = \"trait\")%&gt;%\n  mutate(across(everything(),~ifelse(.x==\"NaN\",NA,.x)))\n\n\n`summarise()` has grouped output by 'species'. You can override using the\n`.groups` argument.\n\n\nCode\ntry_release%&gt;%\n  reshape2::melt(id.vars=c(\"species\"))%&gt;%\n  group_by(variable)%&gt;%\n  mutate(is_na_var=ifelse(is.na(value),0,1))%&gt;%\n  summarise(pct_species_avail=(sum(is_na_var)/82)*100)%&gt;%\n  ggplot(aes(x=pct_species_avail,y=variable))+\n  geom_point()+\n  theme_minimal()\n\n\n\n\n\n\n\n\n\nCode\ntry_release%&gt;%\n  reshape2::melt(id.vars=c(\"species\"))%&gt;%\n  group_by(variable)%&gt;%\n  mutate(is_na_var=ifelse(is.na(value),0,1))%&gt;%\n  summarise(pct_species_avail=(sum(is_na_var)/82)*100)%&gt;%\n  filter(pct_species_avail&gt;0)%&gt;%\n  readr::write_tsv(\"data/TRY/release/traits_with_some_values.tsv\")\n\n\n\n\n\n\nKattge, Jens, Gerhard Bönisch, Sandra Díaz, Sandra Lavorel, Iain Colin Prentice, Paul Leadley, Susanne Tautenhahn, et al. 2019. “TRY Plant Trait Database  Enhanced Coverage and Open Access.” Global Change Biology 26 (1): 119–88. https://doi.org/10.1111/gcb.14904.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Plant diversity</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "INHERSEED",
+    "section": "",
+    "text": "Code\nknitr::include_graphics('./data/images/logo.png')\n\n\n\n\n\n\n\n\n\n\nIntroduction\nPlant microbial INHERitance across generations through SEEDs: impact of this primary inoculum on plant fitness and microbiota assembly\nThis document acts as a wiki-like platform regarding all protocols and data treatment within the INHERSEED project. The project is lead by Marie Simonin (PI - website, Tristan Lafont Rapnouil is a post-doc in charge of monitoring the project progress and data acquisition and, Mathilde Brunel is a technician involved in greenhouse managing and wetlab experimentations.\nWhile not all data and protocols can be hosted on Github, links to where they are actually findable are persented in this document.\nFor any questions related to this project, you can contact marie.simonin@inrae.fr and/or tristan.lafontrapnouil@gmail.com.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  }
+]

@@ -1,0 +1,23 @@
+project:
+  type: book
+  output-dir: docs
+
+book:
+  title: "INHERSEED"
+  date: last-modified
+  chapters:
+    - index.qmd
+    - 01-data_framework.qmd
+    - 02-plant_diversity.qmd
+  appendices:
+    - 99-references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    number-depth: -1
+
+editor: visual

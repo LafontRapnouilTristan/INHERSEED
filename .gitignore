@@ -1,0 +1,12 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+test2beignored/data
+CredentialsCreation.R
+.xlsx
+.csv
+.txt
+data/
+/.quarto/
