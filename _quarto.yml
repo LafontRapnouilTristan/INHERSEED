@@ -7,10 +7,9 @@ book:
   date: last-modified
   chapters:
     - index.qmd
-    - 01-data_framework.qmd
-    - 02-plant_diversity.qmd
+    - 01_GreenhouseExp.qmd
   appendices:
-    - 99-references.qmd
+    - 99_references.qmd
 
 bibliography: references.bib
 

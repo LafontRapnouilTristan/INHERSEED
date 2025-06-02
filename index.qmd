@@ -18,3 +18,86 @@ This document acts as a wiki-like platform regarding all protocols and data trea
 While not all data and protocols can be hosted on Github, links to where they are actually findable are persented in this document.
 
 For any questions related to this project, you can contact [marie.simonin\@inrae.fr](mailto:marie.simonin@inrae.fr){.email} and/or [tristan.lafontrapnouil\@gmail.com](mailto:tristan.lafontrapnouil@gmail.com){.email}.
+
+# Project Overview
+
+# Data framework
+
+## Fair principles
+
+INHERSEED aims to respect the FAIR principles for open science.
+
+```{r}
+#| echo: false
+#| label: fig-FairPrinciples
+#| fig-cap: "Type of data and their availability."
+#| width: 200%
+knitr::include_graphics('./data/images/FAIR_principles.jpg')
+```
+
+To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles @fig-DataFramework.
+
+```{r}
+#| echo: false
+#| label: fig-DataFramework
+#| fig-cap: "Type of data and their availability."
+#| width: 200%
+knitr::include_graphics('./data/images/d_framework.png')
+```
+
+Full original project proposal: [INSERT A FILE]()
+
+The Data Management Plan: [INSERT A FILE]().
+
+R session info: [INSERT A FILE]().
+
+Deliverable of the project are:
+
+-   **Data, protocols and workflows**:
+
+    -   github hosted document (Text)
+    -   Metabarcoding dataset: amplicon sequencing dataset as .fastq for *gyrB* and *ITS1* markers (Dataset)
+    -   Seed and plant phenotype as .csv (Dataset)
+    -   Processing scripts and pipelines (Python, Bash and R) (Workflow)
+    -   Protocols for all data acquisition (Text)
+
+-   **Results**:
+
+    -   **WP1**:
+        -   Plant taxonomy and traits influence on seed microbiota
+        -   Assessment of microbial transmission from plants to seeds
+        -   Exploring phylosymbiosis on seed microbiota
+    -   **WP2**:
+        -   Evaluation of microbial transmission from seeds to seedlings
+        -   Inherited and non-inherited taxa transmission success
+        -   Exploring phylosymbiosis on seedling microbiota
+        -   Identification of microbial taxa with potential effects on seedling phenotypes
+    -   **WP3**:
+        -   Experimental validation of vertical transmission of inherited taxa
+        -   Identification of inherited taxa affecting plant fitness
+        -   Identification of inherited taxa influencing microbiota assembly
+
+## Links to data info
+
+-   \[Project proposal\]\[document/full_proposal/aapg_20203-INHERSEED_full_proposal.pdf\]
+-   \[Original seeds sources\]\[\]
+    -   \[species list\]\[\]
+    -   \[suppliers\]\[\]
+-   \[Seed phenotype\]\[\]
+    -   \[Seed pictures\]\[\]
+    -   \[TRAITOR software\]\[\]
+-   \[DNA extractions\]\[\]
+    -   \[Seeds\]\[\]
+    -   \[Leaves\]\[\]
+    -   \[Roots\]\[\]
+    -   \[Soil\]\[\]
+-   \[Plant phenotype\]\[\]
+-   \[R script to download all datasets\]\[\]
+
+# Plant species
+
+XX plant species were used in INHERSEED. This represent a challenge both to grow and monitor such diversity as well as to sample and properly phenotype plants and seeds varying tremendously in size, shapes and looks. Acknowledging this challenge we tried to adopt protocols and data viewing/analysis allowing to compare *Arabidopsis*, carrots or beans. That being said, we recognize that critics can still be made and our results should be regarded with the diversity-challenge in mind!
+
+The full species list:
+
+We focused on non-woody annual species and tried to have a good spread across the Angiosperm phylogeny:

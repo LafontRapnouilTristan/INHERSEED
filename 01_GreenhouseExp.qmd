@@ -1,5 +1,5 @@
 ---
-title: "Plant diversity"
+title: "Greenhouse experiment - WP1&2"
 format: html
 editor: visual
 ---
@@ -11,19 +11,11 @@ library(tidyverse)
 library(rtry)
 ```
 
-# Original seeds sources
+# G0
 
-## Species list
+Seeds from XX species were bought from different seed producers. Here is a table listing seed species and origin: [INSERT TABLE]()
 
-XX plant species were used in INHERSEED. This represent a challenge both to grow and monitor such diversity as well as to sample and properly phenotype plants and seeds varying tremendously in size, shapes and looks. Acknowledging this challenge we tried to adopt protocols and data viewing/analysis allowing to compare *Arabidopsis*, carrots or beans. That being said, we recognize that critics can still be made and our results should be regarded with the diversity-challenge in mind!
-
-The full species list:
-
-We focused on non-woody annual species and tried to have a good spread across the Angiosperm phylogeny:
-
-## General informations
-
-In order to interpret our results, we wanted to get as many information on our species from botany to chemistry.
+We compiled as much information as possible regarding these species and their seeds. First we looked in the TRY database for available information on these species [REF TRY SECTION](). Additionally, we performed multiple test and measurements on these seeds: \* Macroscopy and measurements using TRAITOR (REF) [REF MACROSCOPE/TRAITOR SECTION]() \* Tomography \* Picnometry \* Mass measurements \* Chemistry
 
 ### TRY
 
@@ -31,14 +23,15 @@ First we identified a set of traits that may be found on the [TRY database](http
 
 #### Request
 
-First check if our species have entries in TRY.
-Run this only the first time to get the list of TRY species:
+First check if our species have entries in TRY. Run this only the first time to get the list of TRY species:
+
 ```{r}
 #| message: false
 # download.file('https://try-db.org/dnld/TryAccSpecies.txt', destfile = "data/TRY/TryAccSpecies.tsv", method = "wget", extra = "-r -p --random-wait", quiet = T)
 ```
 
 Then look for our species:
+
 ```{r}
 #| message: false
 #get our species list
@@ -53,8 +46,11 @@ try_sp <- species_list %>%
   left_join(readr::read_tsv("data/TRY/TryAccSpecies.txt"),
             by = c("scientific_cleaned" = "AccSpeciesName")
   )
+```
 
-#species not in try
+```{r}
+#| label: fig-speciesinTRY
+#| fig-cap: "Number of our species with values for selected traits in TRY."
 try_sp%>%
   mutate(is_in_try=ifelse(is.na(AccSpeciesID),"Not in TRY","In Try"))%>%
   ggplot(aes(x=is_in_try,fill=is_in_try))+
@@ -85,11 +81,15 @@ try_request_traits%>%
 # 41259 - ID of the first request
 ```
 
-Then we requested TRY data access using our species and traits lists.
+We requested TRY data access using our species and traits lists.
 
 #### Release
 
+Check for all the traits the number of value (e.g., species) we have.
+
 ```{r}
+#| message: false
+#| warning: false
 try_release <- readr::read_tsv("data/TRY/release/41259_1905202519280_TRY_relaease/41259.txt")
 try_release %<>%
   select(AccSpeciesName, TraitName, StdValue) %>%
@@ -102,9 +102,11 @@ try_release %<>%
   summarise(value = mean(as.numeric(value), na.rm = TRUE)) %>%
   tidyr::pivot_wider(values_from = "value", names_from = "trait")%>%
   mutate(across(everything(),~ifelse(.x=="NaN",NA,.x)))
+```
 
-
-
+```{r}
+#| label: fig-traitsinTRY
+#| fig-cap: "% of our species for which we have a value."
 try_release%>%
   reshape2::melt(id.vars=c("species"))%>%
   group_by(variable)%>%
@@ -113,9 +115,11 @@ try_release%>%
   ggplot(aes(x=pct_species_avail,y=variable))+
   geom_point()+
   theme_minimal()
+```
 
+Write the list of traits to a new file.
 
-
+```{r}
 try_release%>%
   reshape2::melt(id.vars=c("species"))%>%
   group_by(variable)%>%
@@ -124,3 +128,21 @@ try_release%>%
   filter(pct_species_avail>0)%>%
   readr::write_tsv("data/TRY/release/traits_with_some_values.tsv")
 ```
+
+## Macroscopy
+
+#### Protocols
+
+#### Image processing
+
+## Tomography
+
+## Picnometry
+
+## Mass measruements
+
+# P1
+
+# G1
+
+# P2
