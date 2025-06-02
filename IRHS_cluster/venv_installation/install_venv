@@ -1,0 +1,29 @@
+# File containing the commands to launch from the cluster to create conda environments
+# These have to be launched from the folder containing the .yml recipes
+
+############## Traitor #####################################
+# create env with conda 3.7 to 3.11 (traitor requirements)
+conda env create -p /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_traitor -f venv_traitor.yml
+# activate it
+conda activate /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_traitor
+# install pip
+conda install pip
+# use pip to install traitor from github
+pip install git+https://github.com/TankredO/traitor
+# deactivate env
+conda deactivate
+#############################################################
+
+
+############ Samba protocol ################################
+# create env with conda 3.7 to 3.11 (traitor requirements)
+conda env create -p /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_samba -f venv_samba.yml
+# activate it
+conda activate /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_samba
+# install pip
+conda install pip
+# use pip to install traitor from github
+pip install smbclientng
+# deactivate env
+conda deactivate
+#############################################################

@@ -1,0 +1,5 @@
+# run: conda env create --file environment.yml
+name: venv_samba
+dependencies:
+- python=3.11
+- anaconda
