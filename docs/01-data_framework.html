@@ -152,6 +152,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#data-framework" id="toc-data-framework" class="nav-link active" data-scroll-target="#data-framework">Data framework</a></li>
+  <li><a href="#links-to-data-info" id="toc-links-to-data-info" class="nav-link" data-scroll-target="#links-to-data-info">Links to data info</a></li>
   </ul>
 </nav>
     </div>
@@ -179,47 +180,75 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="data-framework" class="level1">
 <h1>Data framework</h1>
-<p>INHERSEED aims to respect the FAIR principles for open science. To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles @ref(fig:dframework).</p>
-<div class="cell">
+<p>INHERSEED aims to respect the FAIR principles for open science.</p>
+<div class="cell" width="200%">
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="./data/images/d_framework.png" class="img-fluid figure-img" width="388"></p>
+<div id="fig-FairPrinciples" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-FairPrinciples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./data/images/FAIR_principles.jpg" class="img-fluid figure-img" width="600">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-FairPrinciples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Type of data and their availability.
+</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>To ensure reproducibility data standard processing (bioinformatic pipeline and diagnostics) were embbeded in snakemake pipeline. R session info were also stored as text files available <a href="">here</a>. The Data Management Plan is hosted <a href="">here</a>.</p>
+<p>To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles <a href="#fig-DataFramework" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>.</p>
+<div class="cell" width="200%">
+<div class="cell-output-display">
+<div id="fig-DataFramework" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-DataFramework-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./data/images/d_framework.png" class="img-fluid figure-img" width="388">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-DataFramework-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Type of data and their availability.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Full original project proposal: <a href="">INSERT A FILE</a></p>
+<p>The Data Management Plan: <a href="">INSERT A FILE</a>.</p>
+<p>R session info: <a href="">INSERT A FILE</a>.</p>
 <p>Deliverable of the project are:</p>
-<ol type="1">
-<li>Data, protocols and workflows:</li>
-</ol>
+<ul>
+<li><p><strong>Data, protocols and workflows</strong>:</p>
 <ul>
 <li>github hosted document. (Text)</li>
 <li>Metabarcoding dataset: amplicon sequencing dataset as .fastq for <em>gyrB</em> and <em>ITS1</em> markers. (Dataset)</li>
 <li>Seed and plant phenotype as .csv. (Dataset)</li>
 <li>Processing scripts and pipelines (Python, Bash and R). (Workflow)</li>
 <li>Protocols for all data acquisition (Text)</li>
-</ul>
-<ol start="2" type="1">
-<li>Results:</li>
-</ol>
+</ul></li>
+<li><p><strong>Results</strong>:</p>
 <ul>
-<li><p><strong>WP1</strong>:</p></li>
-<li><p>Plant taxonomy and traits influence on seed microbiota</p></li>
-<li><p>Assessment of microbial transmission from plants to seeds</p></li>
-<li><p>Exploring phylosymbiosis on seed microbiota</p></li>
-<li><p><strong>WP2</strong>:</p></li>
-<li><p>Evaluation of microbial transmission from seeds to seedlings</p></li>
-<li><p>Inherited and non-inherited taxa transmission success</p></li>
-<li><p>Exploring phylosymbiosis on seedling microbiota</p></li>
-<li><p>Identification of microbial taxa with potential effects on seedling phenotypes</p></li>
-<li><p><strong>WP3</strong>:</p></li>
-<li><p>Experimental validation of vertical transmission of inherited taxa</p></li>
-<li><p>Identification of inherited taxa affecting plant fitness</p></li>
-<li><p>Identification of inherited taxa influencing microbiota assembly</p></li>
+<li><strong>WP1</strong>:
+<ul>
+<li>Plant taxonomy and traits influence on seed microbiota</li>
+<li>Assessment of microbial transmission from plants to seeds</li>
+<li>Exploring phylosymbiosis on seed microbiota</li>
+</ul></li>
+<li><strong>WP2</strong>:
+<ul>
+<li>Evaluation of microbial transmission from seeds to seedlings</li>
+<li>Inherited and non-inherited taxa transmission success</li>
+<li>Exploring phylosymbiosis on seedling microbiota</li>
+<li>Identification of microbial taxa with potential effects on seedling phenotypes</li>
+</ul></li>
+<li><strong>WP3</strong>:
+<ul>
+<li>Experimental validation of vertical transmission of inherited taxa</li>
+<li>Identification of inherited taxa affecting plant fitness</li>
+<li>Identification of inherited taxa influencing microbiota assembly</li>
+</ul></li>
+</ul></li>
 </ul>
-<p>#links to data info</p>
+</section>
+<section id="links-to-data-info" class="level1">
+<h1>Links to data info</h1>
 <ul>
 <li>[Project proposal][document/full_proposal/aapg_20203-INHERSEED_full_proposal.pdf]</li>
 <li>[Original seeds sources][]
