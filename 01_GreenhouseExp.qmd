@@ -239,12 +239,25 @@ credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key 
 # webdav::webdav_download_file(
 #   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
 #   file_path = "INHERSEED/phenotype.xlsx", #path to the file I want to dl
-#   destination_path = "test2beignored/data", #path to the local folder
+#   destination_path = "data/raw_inputs/P1/phenotyping", #path to the local folder
 #   username = credentials$login, #credentials created beforehand
 #   password = credentials$password,
 #   verbose = TRUE
 # )
 
+```
+
+```{r}
+# Load data
+data_phenotype <- readxl::read_xlsx("data/raw_inputs/P1/phenotyping/phenotype.xlsx")
+
+data_phenotype%>%
+  select(-type_of_leaf)%>%
+  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id"))%>%
+  ggplot(aes(x=common_name,y=value))+
+  geom_boxplot()+
+  theme(axis.text.x=element_text(angle=45,vjust=1,hjust=1))+
+  facet_wrap(~variable,scales="free_y")
 ```
 
 
