@@ -67,6 +67,7 @@ Now we can build a request for TRY with our traits of interest. We handpicked fr
 
 ```{r}
 try_request <- try_sp%>%
+  filter(!is.na(AccSpeciesID))%>%
   summarise(species_list=paste0(AccSpeciesID,collapse = ", "))
 try_request%>%
   readr::write_tsv("data/TRY/requests/TryReqSpecies.tsv")
@@ -210,7 +211,6 @@ scree_plot_var_list <- factoextra::fviz_screeplot(pca_tmp,barfill = "lightgrey",
 pca_site_var+scree_plot_var_list
 ```
 
-
 ## Tomography
 
 ## Picnometry
@@ -220,6 +220,7 @@ pca_site_var+scree_plot_var_list
 # P1
 
 Visualise measured traits
+
 ```{r}
 source("CredentialsAndSecurity/Cryption.R")
 # Load crypting key and credentials
@@ -260,6 +261,35 @@ data_phenotype%>%
   facet_wrap(~variable,scales="free_y")
 ```
 
+## Leaf area
+
+### Check for images properties
+
+```{r}
+# get all images files
+path <- list.files("data/raw_inputs/P1/leaves_pictures/allpics/",recursive=T)
+
+# extract date they were taken on
+image_info <- exiftoolr::exif_read(paste0("data/raw_inputs/P1/leaves_pictures/allpics/",path),tags = "CreateDate")
+
+# get date, dispatch in batches and set new folder names
+image_info%<>%
+  mutate(pic_day=as.factor(stringr::str_extract(CreateDate,".*(?=\\s)")))%>%
+  mutate(batch=paste0("batch_",as.integer(pic_day)))%>%
+  mutate(folder=paste0("data/raw_inputs/P1/leaves_pictures/allpics/",batch),
+         file_name=basename(SourceFile))%>%
+  mutate(new_path=paste0(folder,"/",file_name))
+
+# creating the directories
+image_info$folder %>%
+  unique() %>%
+  map(
+  ~dir.create(.x)
+  )
+
+# move all images in folders according to batch ID (i.e., date taken)
+walk2(image_info$SourceFile, image_info$new_path, ~file.rename(.x, .y))
+```
 
 # G1
 
