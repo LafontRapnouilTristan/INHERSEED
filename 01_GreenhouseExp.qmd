@@ -37,12 +37,12 @@ Then look for our species:
 #get our species list
 species_list <- readr::read_tsv("data/species_list_INHERSEED.tsv")
 #check overlap and merge
-try_sp <- species_list %>%
-  rename(scientific_cleaned = species_for_tree)%>%
-  select(scientific_cleaned) %>%
-  mutate(scientific_cleaned=ifelse(scientific_cleaned=="Legousia veneris","Legousia speculum-veneris",scientific_cleaned))%>% #rename that species properly
-  na.omit() %>%
-  unique() %>%
+try_sp <- species_list |>
+  rename(scientific_cleaned = species_for_tree)|>
+  select(scientific_cleaned) |>
+  mutate(scientific_cleaned=ifelse(scientific_cleaned=="Legousia veneris","Legousia speculum-veneris",scientific_cleaned))|> #rename that species properly
+  na.omit() |>
+  unique() |>
   left_join(readr::read_tsv("data/TRY/TryAccSpecies.txt"),
             by = c("scientific_cleaned" = "AccSpeciesName")
   )
@@ -51,8 +51,8 @@ try_sp <- species_list %>%
 ```{r}
 #| label: fig-speciesinTRY
 #| fig-cap: "Number of our species with values for selected traits in TRY."
-try_sp%>%
-  mutate(is_in_try=ifelse(is.na(AccSpeciesID),"Not in TRY","In Try"))%>%
+try_sp|>
+  mutate(is_in_try=ifelse(is.na(AccSpeciesID),"Not in TRY","In Try"))|>
   ggplot(aes(x=is_in_try,fill=is_in_try))+
   geom_bar(stat = "count")+
   theme_minimal()+
@@ -66,18 +66,18 @@ try_sp%>%
 Now we can build a request for TRY with our traits of interest. We handpicked from TRY traits list XX traits that were relevant to us.
 
 ```{r}
-try_request <- try_sp%>%
-  filter(!is.na(AccSpeciesID))%>%
+try_request <- try_sp|>
+  filter(!is.na(AccSpeciesID))|>
   summarise(species_list=paste0(AccSpeciesID,collapse = ", "))
-try_request%>%
+try_request|>
   readr::write_tsv("data/TRY/requests/TryReqSpecies.tsv")
 
 traits_try <- readxl::read_xlsx("data/TRY/traits_of_interest/Traits repro TRY database.xlsx")
-try_request_traits <- traits_try%>%
-  filter(tokeep=="y")%>%
-  select(TraitID)%>%
+try_request_traits <- traits_try|>
+  filter(tokeep=="y")|>
+  select(TraitID)|>
   summarise(traits_list=paste0(TraitID,collapse = ", "))
-try_request_traits%>%
+try_request_traits|>
   readr::write_tsv("data/TRY/requests/TryReqTraits.tsv")
 # 41259 - ID of the first request
 ```
@@ -93,26 +93,26 @@ Check for all the traits the number of value (e.g., species) we have.
 #| warning: false
 try_release <- readr::read_tsv("data/TRY/release/41259_1905202519280_TRY_relaease/41259.txt")
 try_release %<>%
-  select(AccSpeciesName, TraitName, StdValue) %>%
+  select(AccSpeciesName, TraitName, StdValue) |>
   rename(
     species = AccSpeciesName,
     trait = TraitName,
     value = StdValue
-  ) %>%
-  group_by(species, trait) %>%
-  summarise(value = mean(as.numeric(value), na.rm = TRUE)) %>%
-  tidyr::pivot_wider(values_from = "value", names_from = "trait")%>%
+  ) |>
+  group_by(species, trait) |>
+  summarise(value = mean(as.numeric(value), na.rm = TRUE)) |>
+  tidyr::pivot_wider(values_from = "value", names_from = "trait")|>
   mutate(across(everything(),~ifelse(.x=="NaN",NA,.x)))
 ```
 
 ```{r}
 #| label: fig-traitsinTRY
 #| fig-cap: "% of our species for which we have a value."
-try_release%>%
-  reshape2::melt(id.vars=c("species"))%>%
-  group_by(variable)%>%
-  mutate(is_na_var=ifelse(is.na(value),0,1))%>%
-  summarise(pct_species_avail=(sum(is_na_var)/82)*100)%>%
+try_release|>
+  reshape2::melt(id.vars=c("species"))|>
+  group_by(variable)|>
+  mutate(is_na_var=ifelse(is.na(value),0,1))|>
+  summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
   ggplot(aes(x=pct_species_avail,y=variable))+
   geom_point()+
   theme_minimal()
@@ -121,12 +121,12 @@ try_release%>%
 Write the list of traits to a new file.
 
 ```{r}
-try_release%>%
-  reshape2::melt(id.vars=c("species"))%>%
-  group_by(variable)%>%
-  mutate(is_na_var=ifelse(is.na(value),0,1))%>%
-  summarise(pct_species_avail=(sum(is_na_var)/82)*100)%>%
-  filter(pct_species_avail>0)%>%
+try_release|>
+  reshape2::melt(id.vars=c("species"))|>
+  group_by(variable)|>
+  mutate(is_na_var=ifelse(is.na(value),0,1))|>
+  summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
+  filter(pct_species_avail>0)|>
   readr::write_tsv("data/TRY/release/traits_with_some_values.tsv")
 ```
 
@@ -150,8 +150,8 @@ traitor_output%<>%
 colnames(traitor_output)
 
 # perfom PCA  
-pca_tmp <- traitor_output %>% 
-  dplyr::select(all_of(c(5:11,157)))%>%
+pca_tmp <- traitor_output |> 
+  dplyr::select(all_of(c(5:11,157)))|>
   FactoMineR::PCA(scale.unit = T,
                   graph = F,
                   quali.sup=8)
@@ -220,7 +220,7 @@ pca_site_var+scree_plot_var_list
 # P1
 
 Visualise measured traits
-
+##measured
 ```{r}
 source("CredentialsAndSecurity/Cryption.R")
 # Load crypting key and credentials
@@ -232,29 +232,35 @@ credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key 
 # webdav::webdav_download_file(
 #   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
 #   file_path = "INHERSEED/monitoring_and_info.xlsx", #path to the file I want to dl
-#   destination_path = "test2beignored/data", #path to the local folder
-#   username = credentials$login, #credentials created beforehand
-#   password = credentials$password,
-#   verbose = TRUE
-# )
-# webdav::webdav_download_file(
-#   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
-#   file_path = "INHERSEED/phenotype.xlsx", #path to the file I want to dl
 #   destination_path = "data/raw_inputs/P1/phenotyping", #path to the local folder
 #   username = credentials$login, #credentials created beforehand
 #   password = credentials$password,
 #   verbose = TRUE
 # )
+webdav::webdav_download_file(
+  "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
+  file_path = "INHERSEED/phenotype.xlsx", #path to the file I want to dl
+  destination_path = "data/raw_inputs/P1/phenotyping", #path to the local folder
+  username = credentials$login, #credentials created beforehand
+  password = credentials$password,
+  verbose = TRUE
+)
 
 ```
 
 ```{r}
 # Load data
 data_phenotype <- readxl::read_xlsx("data/raw_inputs/P1/phenotyping/phenotype.xlsx")
-
-data_phenotype%>%
-  select(-type_of_leaf)%>%
-  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id"))%>%
+  
+data_phenotype |>
+  mutate(sample_id=gsub("-","_",sample_id),
+         plant_id=gsub("-","_",plant_id)) ->
+  data_phenotype
+  
+data_phenotype |>
+  select(-type_of_leaf) |>
+  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id")) |>
+  # mutate(value=as.numeric(value))|>
   ggplot(aes(x=common_name,y=value))+
   geom_boxplot()+
   theme(axis.text.x=element_text(angle=45,vjust=1,hjust=1))+
@@ -273,16 +279,16 @@ path <- list.files("data/raw_inputs/P1/leaves_pictures/allpics/",recursive=T)
 image_info <- exiftoolr::exif_read(paste0("data/raw_inputs/P1/leaves_pictures/allpics/",path),tags = "CreateDate")
 
 # get date, dispatch in batches and set new folder names
-image_info%<>%
-  mutate(pic_day=as.factor(stringr::str_extract(CreateDate,".*(?=\\s)")))%>%
-  mutate(batch=paste0("batch_",as.integer(pic_day)))%>%
+image_info|>
+  mutate(pic_day=as.factor(stringr::str_extract(CreateDate,".*(?=\\s)")))|>
+  mutate(batch=paste0("batch_",as.integer(pic_day)))|>
   mutate(folder=paste0("data/raw_inputs/P1/leaves_pictures/allpics/",batch),
-         file_name=basename(SourceFile))%>%
+         file_name=basename(SourceFile))|>
   mutate(new_path=paste0(folder,"/",file_name))
 
 # creating the directories
-image_info$folder %>%
-  unique() %>%
+image_info$folder |>
+  unique() |>
   map(
   ~dir.create(.x)
   )
