@@ -219,8 +219,32 @@ pca_site_var+scree_plot_var_list
 
 # P1
 
-Visualise measured traits
-##measured
+## Sampling
+
+We aimed to obtain seeds from 8 to 12 plants (depending on the species size) for each species. Of the 65 sowed species, 60 were brought to flowering (loss due to Oïdium). An initial total of 744 plants.
+Measurements and samples were performed on all plants but DNA extraction were only performed on a subset of 5 plants per species.
+
+Samples for microbiota:
+
+- leaves (60 species *5 plants = 300)
+- roots (300)
+- soil (300)
+- seeds (300)
+- air (~50)
+- water (~50)
+- bumblebees (~50)
+- soil control when sowing (8 batches * 2 tubes=16?)
+
+- seeds G0 (60-88*4=240/352)
+
+Used kits:
+
+- seeds: Macherey-Nagel food soil -> 652 ech
+- leaves/roots/soil/bumblebees: DNeasy power soil Quiagen -> ~1000
+- air/water: DNAeasy power water ~ 100
+
+Visualise measured traits ##measured
+
 ```{r}
 source("CredentialsAndSecurity/Cryption.R")
 # Load crypting key and credentials
