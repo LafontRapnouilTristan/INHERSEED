@@ -110,19 +110,21 @@ We focused on non-woody annual species and tried to have a good spread across th
 ```{r}
 #get our species list
 species_list <- readr::read_tsv("data/species_list_INHERSEED.tsv")
-species_list%<>%
+species_list |>
   mutate(species=species_for_tree,
-         genus=stringr::str_extract(species_for_tree,".*(?=\\s)"))%>%
-  mutate(genus=ifelse(is.na(genus),species,genus))
+         genus=stringr::str_extract(species_for_tree,".*(?=\\s)")) |>
+  mutate(genus=ifelse(is.na(genus),species,genus)) ->
+  species_list
 
 #load family info
-ordered_list <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 2) %>% #
+ordered_list <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 2)  |> #
   select(c(2:5))
 
 #add family
-species_list%<>%
-  left_join(ordered_list)%>%
-  unique()
+species_list |>
+  left_join(ordered_list) |>
+  unique() ->
+  species_list
 
 library(ggtree)
 library(fastmatch)
@@ -406,14 +408,14 @@ tree_oneper_genus$tip.label<-sapply(strsplit(tree_oneper_genus$tip.label,"_"),fu
 tab_tree <- as_tibble(tree_oneper_genus)
 # remove outgroups
 new_tree <-
-tab_tree%>%
-  ape::as.phylo()%>%
+tab_tree |>
+  ape::as.phylo() |>
   tidytree::tree_subset(node=10515)
 
-tab_new_tree <- new_tree%>%
-  as_tibble()%>%
+tab_new_tree <- new_tree |>
+  as_tibble() |>
   mutate(is_in_our_dataset=ifelse(label%in%species_list$genus,"yes","nope"),
-         node_depth= ape::node.depth(new_tree))%>%
+         node_depth= ape::node.depth(new_tree)) |>
   mutate(deep_node_label= ifelse(node_depth>1&!grepl("N[0-9]*$|mrcaott.*|ae$",label),stringr::str_extract(label,"^[a-zA-Z]*"),NA))
 
 pt1 <- ggtree(new_tree)
@@ -427,13 +429,16 @@ pt1 <- pt1 %<+% tab_new_tree +
     geom = "label")
 
 
-#This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species)
+```
 
+This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species)
+
+```{r}
 # get paths that we want to keep
 
 #subset our species nodes
 test <-
-  tab_new_tree%>%
+  tab_new_tree |>
   filter(is_in_our_dataset=="yes")
 
 # set a null object to store paths
@@ -447,7 +452,7 @@ for(nodez in test$node){
 nodez2keep <- unique(path2keep)
 
 # remove tips and nodes that we want to keep
-nodeznot2keep <- tab_new_tree$label[!tab_new_tree$node%in%nodez2keep&tab_new_tree$node_depth!=1]
+nodeznot2keep <- tab_new_tree$label[!tab_new_tree$node%in%nodez2keep] #&tab_new_tree$node_depth!=1
 
 
 
@@ -456,9 +461,9 @@ itol_nodes <- paste0(nodeznot2keep,collapse = "\n")
 write(itol_nodes,file="data/plant_phylogeny/itol_nodes.txt",append=TRUE)
 
 # export to nexus for itol
-tset <- tab_new_tree%>%
-  mutate(genus=label)%>%
-  left_join(species_list)%>%
+tset <- tab_new_tree |>
+  mutate(genus=label) |>
+  left_join(species_list) |>
   mutate(label=ifelse(!is.na(species_for_tree),species_for_tree,label))
 
 phytools::writeNexus(ape::as.phylo(tab_new_tree), file="data/plant_phylogeny/nexus_plant.nxs")
