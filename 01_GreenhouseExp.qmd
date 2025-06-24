@@ -143,9 +143,9 @@ try_release|>
 traitor_output <- read.csv("data/intermediary_outs/G0/objects_measurements.csv")
   
 # extract species information
-traitor_output%<>%
-  mutate(species=gsub("_\\d*","",group)) #remove the _digit end of group
-  
+traitor_output |>
+  mutate(species=gsub("_\\d*","",group)) -> #remove the _digit end of group
+  traitor_output
   
 colnames(traitor_output)
 
@@ -208,7 +208,7 @@ scree_plot_var_list <- factoextra::fviz_screeplot(pca_tmp,barfill = "lightgrey",
         plot.title = element_blank())+
   scale_y_continuous(expand=c(0,0))
 
-pca_site_var+scree_plot_var_list
+pca_traitor+theme(legend.position="none")+scree_plot_var_list
 ```
 
 ## Tomography
@@ -284,10 +284,12 @@ data_phenotype |>
 data_phenotype |>
   select(-type_of_leaf) |>
   reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id")) |>
+  filter(!variable%in%c(paste0("nb_seeds_fruit_",1:5),"mass_seeds_tot","mass_100_seeds"))|>
   # mutate(value=as.numeric(value))|>
   ggplot(aes(x=common_name,y=value))+
   geom_boxplot()+
-  theme(axis.text.x=element_text(angle=45,vjust=1,hjust=1))+
+  theme(axis.text.x=element_text(angle=65,vjust=1,hjust=1),
+  axis.title.x=element_blank())+
   facet_wrap(~variable,scales="free_y")
 ```
 
