@@ -5,6 +5,13 @@ editor: visual
 ---
 
 ```{r}
+#| message: false
+#| include: false
+library(tidyverse)
+library(rtry)
+```
+
+```{r}
 #| echo: false
 knitr::include_graphics('./data/images/logo2.png')
 ```
@@ -112,7 +119,7 @@ We focused on non-woody annual species and tried to have a good spread across th
 species_list <- readr::read_tsv("data/species_list_INHERSEED.tsv")
 species_list |>
   mutate(species=species_for_tree,
-         genus=stringr::str_extract(species_for_tree,".*(?=\\s)")) |>
+         genus=gsub(" ","",stringr::str_remove(species_for_tree,"(?<=\\s).*"))) |>
   mutate(genus=ifelse(is.na(genus),species,genus)) ->
   species_list
 
@@ -403,7 +410,12 @@ ii <- sapply(genera,function(x,y) grep(x,y)[1],y=tips)
 tree_oneper_genus <- ape::drop.tip(tree_sub,setdiff(tree_sub$tip.label,tips[ii]))
 # ggtree::ggtree(tree_oneper_genus,layout = "fan")
 
-tree_oneper_genus$tip.label<-sapply(strsplit(tree_oneper_genus$tip.label,"_"),function(x) x[1])
+tree_oneper_genus$tip.label <- sapply(strsplit(tree_oneper_genus$tip.label,"_"),function(x) x[1])
+
+# tree_oneper_genus$tip.label <- 
+#   ifelse(tree_oneper_genus$tip.label%in%species_list$genus,
+#          species_list$species,
+#          tree_oneper_genus$tip.label)
 
 tab_tree <- as_tibble(tree_oneper_genus)
 # remove outgroups
@@ -418,6 +430,7 @@ tab_new_tree <- new_tree |>
          node_depth= ape::node.depth(new_tree)) |>
   mutate(deep_node_label= ifelse(node_depth>1&!grepl("N[0-9]*$|mrcaott.*|ae$",label),stringr::str_extract(label,"^[a-zA-Z]*"),NA))
 
+
 pt1 <- ggtree(new_tree)
 
 pt1 <- pt1 %<+% tab_new_tree + 
@@ -428,10 +441,18 @@ pt1 <- pt1 %<+% tab_new_tree +
     fill = "lightgrey",
     geom = "label")
 
-
+pt1
 ```
 
-This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species)
+This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species). 
+The final tree will be visualized using [ITOL](https://itol.embl.de/).
+We will save some information to be displayed on ITOL.
+
+```{r}
+# export to nexus for itol
+phytools::writeNexus(ape::as.phylo(tab_new_tree), file="data/plant_phylogeny/nexus_plant.nxs")
+```
+
 
 ```{r}
 # get paths that we want to keep
@@ -447,38 +468,68 @@ path2keep <- NULL
 # For all our nodes
 for(nodez in test$node){
   path2genus <- ggtree::get.path(ape::as.phylo(tab_new_tree),tab_new_tree$node[which(tab_new_tree$parent==tab_new_tree$node)],nodez) #path from our species (i.e., a tip) to root
-  path2keep <- c(path2keep,path2genus[-length(path2genus)])
+  path2keep <- c(path2keep,path2genus)
 }
 nodez2keep <- unique(path2keep)
-
 # remove tips and nodes that we want to keep
 nodeznot2keep <- tab_new_tree$label[!tab_new_tree$node%in%nodez2keep] #&tab_new_tree$node_depth!=1
 
-
-
 # build nodes for itol visualisation
+file.copy("data/plant_phylogeny/itol/templates/itol_collapse_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_collapse.txt",
+          overwrite = T)
 itol_nodes <- paste0(nodeznot2keep,collapse = "\n")
-write(itol_nodes,file="data/plant_phylogeny/itol_nodes.txt",append=TRUE)
-
-# export to nexus for itol
-tset <- tab_new_tree |>
-  mutate(genus=label) |>
-  left_join(species_list) |>
-  mutate(label=ifelse(!is.na(species_for_tree),species_for_tree,label))
-
-phytools::writeNexus(ape::as.phylo(tab_new_tree), file="data/plant_phylogeny/nexus_plant.nxs")
-
+write(itol_nodes,file="data/plant_phylogeny/itol/itol_rules/itol_collapse.txt",append=TRUE)
 ```
 
-
+Color the leaves corresponding to our species
 ```{r}
+# leaf color for itol
+file.copy("data/plant_phylogeny/itol/templates/itol_leaf_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_leaf_color.txt",
+          overwrite = T)
+itol_leaves <- paste0(test$label,",",1,collapse = "\n")
+write(itol_leaves,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_color.txt",append=TRUE)
+```
+
+Color clades our species belong to
+```{r}
+# clade colors for itol
 # create order palette for itol
-order_col <- c(paletteer::paletteer_d("PrettyCols::Autumn"),
+order_col <- c(paletteer::paletteer_d("PrettyCols::Autumn"), #16 colors for 16 orders
   "#3d6f8a",
   "#19705c",
   "#5c306b",
   "#5e1924")
-names(order_col) <- unique(species_list$order)
+
+# create dataframe with order/color correspondance
+order_col |> 
+  as_data_frame() |>
+  mutate(order=unique(species_list$order)) ->
+  order_col
+
+# Merge with our dataframe containing labels
+clade <- 
+  data_frame(order_node=tab_new_tree$label[which(tab_new_tree$deep_node_label%in%test$order)],
+             order=tab_new_tree$deep_node_label[which(tab_new_tree$deep_node_label%in%test$order)]) |>
+  left_join(order_col) 
+
+# save to itol template
+file.copy("data/plant_phylogeny/itol/templates/itol_strip_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_strip_order.txt",
+          overwrite = T)
+ 
+itol_orders <- paste0(clade$order_node,"\t",clade$value,"\t",clade$order,collapse = "\n")
+write(itol_orders,file="data/plant_phylogeny/itol/itol_rules/itol_strip_order.txt",append=TRUE)
+```
+
+```{r}
+View(tab_new_tree)
+```
+
+
+```{r}
+
 ```
 
 
