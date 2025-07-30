@@ -9,6 +9,8 @@ editor: visual
 #| include: false
 library(tidyverse)
 library(rtry)
+library(ggplot2)
+library(patchwork)
 ```
 
 # G0
@@ -16,6 +18,117 @@ library(rtry)
 Seeds from XX species were bought from different seed producers. Here is a table listing seed species and origin: [INSERT TABLE]()
 
 We compiled as much information as possible regarding these species and their seeds. First we looked in the TRY database for available information on these species [REF TRY SECTION](). Additionally, we performed multiple test and measurements on these seeds: \* Macroscopy and measurements using TRAITOR (REF) [REF MACROSCOPE/TRAITOR SECTION]() \* Tomography \* Picnometry \* Mass measurements \* Chemistry
+
+### Stock
+
+```{r}
+source("CredentialsAndSecurity/Cryption.R")
+# Load crypting key and credentials
+load("CredentialsAndSecurity/key.RData")
+credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key = key)
+
+# Download file from the cloud
+# Should be run once or when the file is updated
+webdav::webdav_download_file(
+  "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
+  file_path = "INHERSEED/species_INHERSEED.xlsx", #path to the file I want to dl
+  destination_path = "data/", #path to the local folder
+  username = credentials$login, #credentials created beforehand
+  password = credentials$password,
+  verbose = TRUE
+)
+
+webdav::webdav_download_file(
+  "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
+  file_path = "INHERSEED/monitoring_and_info.xlsx", #path to the file I want to dl
+  destination_path = "data/", #path to the local folder
+  username = credentials$login, #credentials created beforehand
+  password = credentials$password,
+  verbose = TRUE
+)
+
+data_ordered_seeds <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 2) #list of ordered seeds
+data_cultivated <- readxl::read_xlsx("data/species_INHERSEED.xlsx")
+
+data_ordered_seeds%<>% #create new taxonomy columns
+  mutate(genus=stringr::str_extract(species_for_tree,"^\\S*"),
+         species=stringr::str_extract(species_for_tree,"\\S*$"))
+data_ordered_seeds %<>%
+  mutate(species=ifelse(nchar(species)<1,"sp",species))%>%
+  mutate(species=paste0(genus,"_",species))
+data_ordered_seeds%<>% #convert to numeric, will generate NA because some are text but its temporary
+  mutate(nb_seeds_lot=as.numeric(nb_seeds_lot),
+         weight_1000_seeds_g=as.numeric(weight_1000_seeds_g))%>%
+  arrange(desc(weight_1000_seeds_g))%>%
+  mutate(species=forcats::fct_inorder(species))
+
+# Seed mass
+data_ordered_seeds%>%
+  ggplot(aes(x=species,y=weight_1000_seeds_g))+
+  geom_point()+
+  scale_y_log10()+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.x = element_blank(),
+        text = element_text(face="bold"))+
+  ylab("1000 seeds weight (g)")+
+  data_ordered_seeds%>%
+  mutate(nb_seeds_needed=0.1/(weight_1000_seeds_g/1000))%>%
+  ggplot(aes(x=species,y=nb_seeds_needed))+
+  geom_point()+
+  scale_y_log10()+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.x = element_blank(),
+        text = element_text(face="bold"))+
+  ylab("Nb seeds to get 0.1g (1mL macerate)")+
+  geom_hline(aes(yintercept = 50),color="darkorange")+
+  geom_hline(aes(yintercept = 20),color="darkorchid4")
+
+data_quantity_seeds <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 5) #seeds sowing and stock tracking
+
+
+data_quantity_seeds%>%
+  group_by(common_name)%>%
+  summarise(nb_leftovers_seeds=sum(nb_leftovers_seeds),
+            leftover_weight_g=sum(leftover_weight_g))%>%
+  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))%>%
+  arrange(desc(weight_1000_seeds_g))%>%
+  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))%>%
+  ggplot(aes(x=species,y=nb_leftovers_seeds))+
+  geom_point()+
+  scale_y_log10()+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.x = element_blank(),
+        text = element_text(face="bold"))+
+  geom_hline(aes(yintercept = 20),color="darkorchid4")+
+  data_quantity_seeds%>%
+  group_by(common_name)%>%
+  summarise(nb_leftovers_seeds=sum(nb_leftovers_seeds),
+            leftover_weight_g=sum(leftover_weight_g))%>%
+  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))%>%
+  arrange(desc(weight_1000_seeds_g))%>%
+  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))%>%
+  ggplot(aes(x=species,y=leftover_weight_g))+
+  geom_point()+
+  scale_y_log10()+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.x = element_blank(),
+        text = element_text(face="bold"))+
+  geom_hline(aes(yintercept = 0.1),color="darkorchid4")
+
+```
+
+```{r}
+data_cultivated |>
+  ggplot(aes(x=factor(SUPPLIER),fill=FAMILY))+
+  geom_histogram(stat = "count",position = "dodge",)+
+  theme(axis.text.x = element_text(angle = 45,hjust = 1,vjust = 1))+
+  facet_wrap(~CULTIVATED)
+```
+
 
 ### TRY
 
@@ -91,8 +204,8 @@ Check for all the traits the number of value (e.g., species) we have.
 ```{r}
 #| message: false
 #| warning: false
-try_release <- readr::read_tsv("data/TRY/release/41259_1905202519280_TRY_relaease/41259.txt")
-try_release %<>%
+try_release <- readr::read_tsv("data/TRY/release/42134_24072025144043/42134.txt")
+try_release <- try_release |>
   select(AccSpeciesName, TraitName, StdValue) |>
   rename(
     species = AccSpeciesName,
@@ -144,11 +257,82 @@ traitor_output <- read.csv("data/intermediary_outs/G0/objects_measurements.csv")
   
 # extract species information
 traitor_output |>
-  mutate(species=gsub("_\\d*","",group)) -> #remove the _digit end of group
+  dplyr::mutate(species=gsub("_\\d*","",group)) -> #remove the _digit end of group
   traitor_output
   
-colnames(traitor_output)
+# remove lines corresponding to poorly TRAITOR extracted images
+  
+list_poorly_xtracted_seeds <- fs::dir_ls(path="data/intermediary_outs/G0/images_aligned/",
+  recurse=T,
+  glob="*/extractions/bad_xtractions/*.png") |>
+  basename() |>
+  stringr::str_remove_all("bbox|.png$")
+  
+traitor_output <- traitor_output |>
+  dplyr::filter(!image_name%in%list_poorly_xtracted_seeds)
+  
+# rename some species and samples with wrong EPPO code
 
+traitor_output <-   
+traitor_output |>
+  dplyr::mutate(species=stringr::str_replace_all(species,"CUUPG","CUUPE"),
+         image_name=stringr::str_replace_all(image_name,"CUUPG","CUUPE"))
+```
+
+
+Now we can check the distribution and look for outliers.
+```{r}
+# Function to tag outliers
+is_outlier <- function(x) { 
+  return(x < quantile(x, 0.25) - 1.5 * IQR(x) | x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+
+  
+sp_clvlnd_traitor_lst <- NULL
+for(sp_tmp in traitor_output$species){  
+ for(traitor_traits_tmp in names(traitor_output)[5:11]){
+  
+  plot_patch <- 
+    traitor_output |>
+      dplyr::select(all_of(c(5:11,157,1))) |>
+      tidyr::pivot_longer(cols=c(1:7),
+      values_to="values",
+      names_to="traitor_traits") |>
+      dplyr::filter(species%in%sp_tmp,
+      traitor_traits%in%traitor_traits_tmp) |>
+      dplyr::mutate(outlierz=dplyr::if_else(is_outlier(values),
+                                            image_name,
+                                            NA_character_)) |>
+      ggplot(aes(y=values,x=species))+
+      geom_boxplot(outlier.shape=NA)+
+      geom_point()+
+      ylab(traitor_traits_tmp)+
+      theme_bw()+
+      theme(axis.title.x=element_blank(),
+            axis.text.x=element_blank())+
+      ggrepel::geom_text_repel(aes(label = outlierz), 
+                          na.rm = TRUE,
+                          show.legend = F) 
+  
+  if(traitor_traits_tmp==names(traitor_output)[5:11][1]){
+    patchwork_plots <- plot_patch
+  }else{
+    patchwork_plots <- patchwork_plots | plot_patch
+  }
+ }
+  patchwork_plots <- patchwork_plots+
+  plot_annotation(title=sp_tmp,
+                  subtitle=paste0("n=",
+                                  nrow(plot_patch$data)))
+  sp_clvlnd_traitor_lst[[sp_tmp]] <- patchwork_plots
+}
+
+```
+
+
+
+
+```{r}
 # perfom PCA  
 pca_tmp <- traitor_output |> 
   dplyr::select(all_of(c(5:11,157)))|>
@@ -221,27 +405,33 @@ pca_traitor+theme(legend.position="none")+scree_plot_var_list
 
 ## Sampling
 
-We aimed to obtain seeds from 8 to 12 plants (depending on the species size) for each species. Of the 65 sowed species, 60 were brought to flowering (loss due to Oïdium). An initial total of 744 plants.
-Measurements and samples were performed on all plants but DNA extraction were only performed on a subset of 5 plants per species.
+We aimed to obtain seeds from 8 to 12 plants (depending on the species size) for each species. Of the 65 sowed species, 60 were brought to flowering (loss due to Oïdium). An initial total of 744 plants. Measurements and samples were performed on all plants but DNA extraction were only performed on a subset of 5 plants per species.
 
 Samples for microbiota:
 
-- leaves (60 species *5 plants = 300)
-- roots (300)
-- soil (300)
-- seeds (300)
-- air (~50)
-- water (~50)
-- bumblebees (~50)
-- soil control when sowing (8 batches * 2 tubes=16?)
+-   leaves (60 species \*5 plants = 300)
 
-- seeds G0 (60-88*4=240/352)
+-   roots (300)
+
+-   soil (300)
+
+-   seeds (300)
+
+-   air (\~50)
+
+-   water (\~50)
+
+-   bumblebees (\~50)
+
+-   soil control when sowing (8 batches \* 2 tubes=16?)
+
+-   seeds G0 (60-88\*4=240/352)
 
 Used kits:
 
-- seeds: Macherey-Nagel food soil -> 652 ech
-- leaves/roots/soil/bumblebees: DNeasy power soil Quiagen -> ~1000
-- air/water: DNAeasy power water ~ 100
+-   seeds: Macherey-Nagel food soil -\> 652 ech
+-   leaves/roots/soil/bumblebees: DNeasy power soil Quiagen -\> \~1000
+-   air/water: DNAeasy power water \~ 100
 
 Visualise measured traits ##measured
 
@@ -253,14 +443,7 @@ credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key 
 
 # Download file from the cloud
 # Should be run once or when the file is updated
-# webdav::webdav_download_file(
-#   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
-#   file_path = "INHERSEED/monitoring_and_info.xlsx", #path to the file I want to dl
-#   destination_path = "data/raw_inputs/P1/phenotyping", #path to the local folder
-#   username = credentials$login, #credentials created beforehand
-#   password = credentials$password,
-#   verbose = TRUE
-# )
+
 webdav::webdav_download_file(
   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
   file_path = "INHERSEED/phenotype.xlsx", #path to the file I want to dl
@@ -278,13 +461,15 @@ data_phenotype <- readxl::read_xlsx("data/raw_inputs/P1/phenotyping/phenotype.xl
   
 data_phenotype |>
   mutate(sample_id=gsub("-","_",sample_id),
-         plant_id=gsub("-","_",plant_id)) ->
+         plant_id=gsub("-","_",plant_id)) %>%
+  mutate(species=gsub("\\s|’","_",common_name)) %>%
+  mutate(species=gsub("é","e",species))->
   data_phenotype
   
 data_phenotype |>
   select(-type_of_leaf) |>
-  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id")) |>
-  filter(!variable%in%c(paste0("nb_seeds_fruit_",1:5),"mass_seeds_tot","mass_100_seeds"))|>
+  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id","species")) |>
+  filter(!variable%in%c(paste0("nb_seeds_fruit_",1:5)))|>
   # mutate(value=as.numeric(value))|>
   ggplot(aes(x=common_name,y=value))+
   geom_boxplot()+
