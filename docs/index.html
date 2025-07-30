@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-05-27">
+<meta name="dcterms.date" content="2025-07-01">
 
 <title>INHERSEED</title>
 <style>
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -146,6 +180,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#project-overview" id="toc-project-overview" class="nav-link" data-scroll-target="#project-overview">Project Overview</a></li>
   <li><a href="#data-framework" id="toc-data-framework" class="nav-link" data-scroll-target="#data-framework">Data framework</a>
   <ul class="collapse">
   <li><a href="#fair-principles" id="toc-fair-principles" class="nav-link" data-scroll-target="#fair-principles">Fair principles</a></li>
@@ -171,7 +206,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">May 27, 2025</p>
+      <p class="date">July 1, 2025</p>
     </div>
   </div>
   
@@ -199,6 +234,9 @@ ul.task-list li input[type="checkbox"] {
 <p>While not all data and protocols can be hosted on Github, links to where they are actually findable are persented in this document.</p>
 <p>For any questions related to this project, you can contact <a href="mailto:marie.simonin@inrae.fr" class="email">marie.simonin@inrae.fr</a> and/or <a href="mailto:tristan.lafontrapnouil@gmail.com" class="email">tristan.lafontrapnouil@gmail.com</a>.</p>
 </section>
+<section id="project-overview" class="level1">
+<h1>Project Overview</h1>
+</section>
 <section id="data-framework" class="level1">
 <h1>Data framework</h1>
 <section id="fair-principles" class="level2">
@@ -212,13 +250,13 @@ ul.task-list li input[type="checkbox"] {
 <img src="./data/images/FAIR_principles.jpg" class="img-fluid figure-img" width="600">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-FairPrinciples-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: Type of data and their availability.
+Figure&nbsp;2.1: Type of data and their availability.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles <a href="#fig-DataFramework" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>.</p>
+<p>To do so we share in the present document protocols, raw data, processing scripts/procedures and, processed data as used in resulting articles <a href="#fig-DataFramework" class="quarto-xref">Figure&nbsp;<span>2.2</span></a>.</p>
 <div class="cell" width="200%">
 <div class="cell-output-display">
 <div id="fig-DataFramework" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -227,7 +265,7 @@ Figure&nbsp;1.1: Type of data and their availability.
 <img src="./data/images/d_framework.png" class="img-fluid figure-img" width="388">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-DataFramework-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: Type of data and their availability.
+Figure&nbsp;2.2: Type of data and their availability.
 </figcaption>
 </figure>
 </div>
@@ -301,6 +339,600 @@ Figure&nbsp;1.2: Type of data and their availability.
 <p>XX plant species were used in INHERSEED. This represent a challenge both to grow and monitor such diversity as well as to sample and properly phenotype plants and seeds varying tremendously in size, shapes and looks. Acknowledging this challenge we tried to adopt protocols and data viewing/analysis allowing to compare <em>Arabidopsis</em>, carrots or beans. That being said, we recognize that critics can still be made and our results should be regarded with the diversity-challenge in mind!</p>
 <p>The full species list:</p>
 <p>We focused on non-woody annual species and tried to have a good spread across the Angiosperm phylogeny:</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#get our species list</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>species_list <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_tsv</span>(<span class="st">"data/species_list_INHERSEED.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 88 Columns: 1
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): species_for_tree
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>species_list <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">species=</span>species_for_tree,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">genus=</span><span class="fu">gsub</span>(<span class="st">" "</span>,<span class="st">""</span>,stringr<span class="sc">::</span><span class="fu">str_remove</span>(species_for_tree,<span class="st">"(?&lt;=</span><span class="sc">\\</span><span class="st">s).*"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">genus=</span><span class="fu">ifelse</span>(<span class="fu">is.na</span>(genus),species,genus)) <span class="ot">-&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  species_list</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#load family info</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>ordered_list <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xlsx</span>(<span class="st">"data/monitoring_and_info.xlsx"</span>,<span class="at">sheet =</span> <span class="dv">2</span>)  <span class="sc">|&gt;</span> <span class="co">#</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#add family</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>species_list <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ordered_list) <span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>() <span class="ot">-&gt;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  species_list</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(species_for_tree)`</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggtree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>ggtree v3.16.0 Learn more at https://yulab-smu.top/contribution-tree-data/
+
+Please cite:
+
+Guangchuang Yu. Using ggtree to visualize data on tree-like structures.
+Current Protocols in Bioinformatics. 2020, 69:e96. doi:10.1002/cpbi.96
+
+Attachement du package : 'ggtree'
+
+L'objet suivant est masqué depuis 'package:tidyr':
+
+    expand</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fastmatch)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attachement du package : 'fastmatch'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    coalesce</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using modified rtrees::get_tree function</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># giving values to arguments (see ?rtrees::get_tree)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>taxon <span class="ot">&lt;-</span> <span class="st">"Plant"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>scenario <span class="ot">&lt;-</span> <span class="st">"at_basal_node"</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>show_grafted <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>tree_by_user <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>mc_cores <span class="ot">&lt;-</span> future<span class="sc">::</span><span class="fu">availableCores</span>() <span class="sc">-</span> <span class="dv">2</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>.progress <span class="ot">&lt;-</span> <span class="st">"text"</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>fish_tree <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"timetree"</span>, <span class="st">"all-taxon"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>mammal_tree <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"vertlife"</span>, </span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                 <span class="st">"phylacine"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>bee_tree <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"maximum-likelihood"</span>, <span class="st">"bootstrap"</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#get the plant tree</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>tree <span class="ot">&lt;-</span> megatrees<span class="sc">::</span>tree_plant_otl</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co"># get genera</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>tree_genus <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">gsub</span>(<span class="st">"^([-A-Za-z]*)_.*$"</span>, <span class="st">"</span><span class="sc">\\</span><span class="st">1"</span>, tree<span class="sc">$</span>tip.label))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co"># get species list</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>sp_list <span class="ot">&lt;-</span> rtrees<span class="sc">::</span><span class="fu">sp_list_df</span>(<span class="fu">unique</span>(species_list))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co"># check if all genera are in the megatree</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>all_genus_in_tree <span class="ot">&lt;-</span> <span class="fu">all</span>(<span class="fu">unique</span>(sp_list<span class="sc">$</span>genus) <span class="sc">%fin%</span> tree_genus)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#Run the function step by step</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(taxon)) {</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>taxon <span class="sc">%fin%</span> rtrees<span class="sc">::</span>taxa_supported <span class="sc">&amp;</span> <span class="sc">!</span>all_genus_in_tree) {</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    new_cls <span class="ot">=</span> <span class="fu">unique</span>(dplyr<span class="sc">::</span><span class="fu">select</span>(sp_list, genus, family))</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    new_cls<span class="sc">$</span>taxon <span class="ot">=</span> taxon</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    classifications <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(rtrees<span class="sc">::</span>classifications, </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>                                        new_cls)</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co"># species not in the megatree</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>sp_out_tree <span class="ot">&lt;-</span> sp_list[<span class="sc">!</span>sp_list<span class="sc">$</span>species <span class="sc">%fin%</span> tree<span class="sc">$</span>tip.label,] </span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>subsp_in_tree <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^.*_.*_.*$"</span>, <span class="at">x =</span> tree<span class="sc">$</span>tip.label, <span class="at">value =</span> T)</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">length</span>(subsp_in_tree)) {</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>  sp_out_tree <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">mutate</span>(sp_out_tree, <span class="at">re_matched =</span> <span class="cn">NA</span>, </span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>                               <span class="at">matched_name =</span> <span class="cn">NA</span>)</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(sp_out_tree<span class="sc">$</span>species)) {</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>    name_in_tree <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="st">"^"</span>, sp_out_tree<span class="sc">$</span>species[i], </span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>                                <span class="st">"_"</span>), <span class="at">x =</span> subsp_in_tree, <span class="at">ignore.case =</span> T, <span class="at">value =</span> T)</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">length</span>(name_in_tree)) {</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>      sp_out_tree<span class="sc">$</span>re_matched[i] <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>      sp_out_tree<span class="sc">$</span>matched_name[i] <span class="ot">=</span> <span class="fu">sample</span>(name_in_tree, </span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>                                           <span class="dv">1</span>)</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>      tree<span class="sc">$</span>tip.label[tree<span class="sc">$</span>tip.label <span class="sc">==</span> sp_out_tree<span class="sc">$</span>matched_name[i]] <span class="ot">=</span> sp_out_tree<span class="sc">$</span>species[i]</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.null</span>(tree<span class="sc">$</span>genus_family_root)) {</span>
+<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>only_sp[tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>only_sp <span class="sc">==</span> </span>
+<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>                                         sp_out_tree<span class="sc">$</span>matched_name[i]] <span class="ot">=</span> sp_out_tree<span class="sc">$</span>species[i]</span>
+<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>  sp_out_tree <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">distinct</span>(sp_list[<span class="sc">!</span>sp_list<span class="sc">$</span>species <span class="sc">%fin%</span> </span>
+<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>                                          tree<span class="sc">$</span>tip.label, ])</span>
+<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>close_sp_specified <span class="ot">=</span> close_genus_specified <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="st">"close_sp"</span> <span class="sc">%fin%</span> <span class="fu">names</span>(sp_out_tree)) {</span>
+<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>  close_sp_specified <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>  sp_out_tree<span class="sc">$</span>close_sp <span class="ot">=</span> <span class="fu">cap_first_letter</span>(<span class="fu">gsub</span>(<span class="st">" +"</span>, <span class="st">"_"</span>, </span>
+<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>                                               sp_out_tree<span class="sc">$</span>close_sp))</span>
+<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>sp_out_tree<span class="sc">$</span>status <span class="ot">&lt;-</span> <span class="st">""</span></span>
+<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>tree_df <span class="ot">&lt;-</span> tidytree<span class="sc">::</span><span class="fu">as_tibble</span>(tree)</span>
+<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>tree_df<span class="sc">$</span>is_tip <span class="ot">&lt;-</span> <span class="sc">!</span>(tree_df<span class="sc">$</span>node <span class="sc">%fin%</span> tree_df<span class="sc">$</span>parent)</span>
+<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>node_hts <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">branching.times</span>(tree)</span>
+<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>all_eligible_nodes <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">c</span>(tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>basal_node, </span>
+<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>                               tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>root_node))</span>
+<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>n_spp_to_show_progress <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(sp_out_tree) <span class="sc">&gt;</span> n_spp_to_show_progress) {</span>
+<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>  progress <span class="ot">&lt;-</span> <span class="fu">create_progress_bar</span>(.progress)</span>
+<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>  progress<span class="sc">$</span><span class="fu">init</span>(<span class="fu">nrow</span>(sp_out_tree))</span>
+<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">on.exit</span>(progress<span class="sc">$</span><span class="fu">term</span>())</span>
+<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sp_out_tree)) {</span>
+<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(sp_out_tree) <span class="sc">&gt;</span> n_spp_to_show_progress) </span>
+<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>    progress<span class="sc">$</span><span class="fu">step</span>()</span>
+<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>  where_loc_i <span class="ot">=</span> where_loc_i2 <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (close_sp_specified) {</span>
+<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(sp_out_tree<span class="sc">$</span>close_sp[i]) <span class="sc">&amp;</span> sp_out_tree<span class="sc">$</span>close_sp[i] <span class="sc">%fin%</span> </span>
+<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>tip.label) {</span>
+<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>      where_loc_i <span class="ot">=</span> sp_out_tree<span class="sc">$</span>close_sp[i]</span>
+<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (close_genus_specified) {</span>
+<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(sp_out_tree<span class="sc">$</span>close_genus[i]) <span class="sc">&amp;</span> sp_out_tree<span class="sc">$</span>close_genus[i] <span class="sc">!=</span> </span>
+<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>        <span class="st">""</span> <span class="sc">&amp;</span> sp_out_tree<span class="sc">$</span>close_genus[i] <span class="sc">%fin%</span> tree_genus) {</span>
+<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>      sp_out_tree<span class="sc">$</span>genus[i] <span class="ot">=</span> sp_out_tree<span class="sc">$</span>close_genus[i]</span>
+<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>      where_loc_i2 <span class="ot">=</span> sp_out_tree<span class="sc">$</span>close_genus[i]</span>
+<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(sp_out_tree<span class="sc">$</span>close_genus[i])) </span>
+<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>        <span class="fu">warning</span>(<span class="st">"The genus specified for "</span>, sp_out_tree<span class="sc">$</span>species[i], </span>
+<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>                <span class="st">" is not in the phylogeny."</span>)</span>
+<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>all_genus_in_tree <span class="sc">&amp;</span> <span class="fu">is.na</span>(where_loc_i) <span class="sc">&amp;</span> <span class="fu">is.na</span>(where_loc_i2)) {</span>
+<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.na</span>(sp_out_tree<span class="sc">$</span>family[i]) <span class="sc">|</span> <span class="sc">!</span>sp_out_tree<span class="sc">$</span>family[i] <span class="sc">%fin%</span> </span>
+<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>family) {</span>
+<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a>      sp_out_tree<span class="sc">$</span>status[i] <span class="ot">=</span> <span class="st">"No co-family species in the mega-tree"</span></span>
+<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>      (<span class="cf">next</span>)()</span>
+<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a>  node_label_new <span class="ot">=</span> <span class="cn">NULL</span></span>
+<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>  add_above_node <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb9-109"><a href="#cb9-109" aria-hidden="true" tabindex="-1"></a>  fraction <span class="ot">=</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">2</span></span>
+<span id="cb9-110"><a href="#cb9-110" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sp_out_tree<span class="sc">$</span>genus[i] <span class="sc">%fin%</span> tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>genus <span class="sc">|</span> </span>
+<span id="cb9-111"><a href="#cb9-111" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(where_loc_i2) <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(where_loc_i)) {</span>
+<span id="cb9-112"><a href="#cb9-112" aria-hidden="true" tabindex="-1"></a>    sp_out_tree<span class="sc">$</span>status[i] <span class="ot">=</span> <span class="st">"*"</span></span>
+<span id="cb9-113"><a href="#cb9-113" aria-hidden="true" tabindex="-1"></a>    idx_row <span class="ot">=</span> <span class="fu">which</span>(tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>genus <span class="sc">==</span> </span>
+<span id="cb9-114"><a href="#cb9-114" aria-hidden="true" tabindex="-1"></a>                      sp_out_tree<span class="sc">$</span>genus[i])</span>
+<span id="cb9-115"><a href="#cb9-115" aria-hidden="true" tabindex="-1"></a>    root_sub <span class="ot">=</span> tree<span class="sc">$</span>genus_family_root[idx_row, ]</span>
+<span id="cb9-116"><a href="#cb9-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (root_sub<span class="sc">$</span>n_spp <span class="sc">==</span> <span class="dv">1</span> <span class="sc">|</span> <span class="sc">!</span><span class="fu">is.na</span>(where_loc_i)) {</span>
+<span id="cb9-117"><a href="#cb9-117" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.na</span>(where_loc_i)) {</span>
+<span id="cb9-118"><a href="#cb9-118" aria-hidden="true" tabindex="-1"></a>        where_loc <span class="ot">=</span> where_loc_i</span>
+<span id="cb9-119"><a href="#cb9-119" aria-hidden="true" tabindex="-1"></a>        new_ht <span class="ot">=</span> tree_df<span class="sc">$</span>branch.length[tree_df<span class="sc">$</span>label <span class="sc">==</span> </span>
+<span id="cb9-120"><a href="#cb9-120" aria-hidden="true" tabindex="-1"></a>                                         where_loc_i] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> fraction)</span>
+<span id="cb9-121"><a href="#cb9-121" aria-hidden="true" tabindex="-1"></a>        node_hts <span class="ot">=</span> <span class="fu">c</span>(new_ht, node_hts)</span>
+<span id="cb9-122"><a href="#cb9-122" aria-hidden="true" tabindex="-1"></a>        node_label_new <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="fu">length</span>(node_hts))</span>
+<span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a>        <span class="fu">names</span>(node_hts)[<span class="dv">1</span>] <span class="ot">=</span> node_label_new</span>
+<span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a>        all_eligible_nodes <span class="ot">=</span> <span class="fu">c</span>(all_eligible_nodes, </span>
+<span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a>                               node_label_new)</span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a>        add_above_node <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="sc">!</span>sp_out_tree<span class="sc">$</span>genus[i] <span class="sc">%fin%</span> tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>genus) {</span>
+<span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a>          tree<span class="sc">$</span>genus_family_root <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">add_row</span>(tree<span class="sc">$</span>genus_family_root, </span>
+<span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">family =</span> sp_out_tree<span class="sc">$</span>family[i], <span class="at">genus =</span> sp_out_tree<span class="sc">$</span>genus[i], </span>
+<span id="cb9-130"><a href="#cb9-130" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">basal_node =</span> node_label_new, <span class="at">basal_time =</span> new_ht, </span>
+<span id="cb9-131"><a href="#cb9-131" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">root_node =</span> tree_df<span class="sc">$</span>label[tree_df<span class="sc">$</span>node <span class="sc">==</span> </span>
+<span id="cb9-132"><a href="#cb9-132" aria-hidden="true" tabindex="-1"></a>                                                                               tree_df<span class="sc">$</span>parent[tree_df<span class="sc">$</span>label <span class="sc">==</span> where_loc_i]], </span>
+<span id="cb9-133"><a href="#cb9-133" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">root_time =</span> tree_df<span class="sc">$</span>branch.length[tree_df<span class="sc">$</span>node <span class="sc">==</span> </span>
+<span id="cb9-134"><a href="#cb9-134" aria-hidden="true" tabindex="-1"></a>                                                                                       tree_df<span class="sc">$</span>parent[tree_df<span class="sc">$</span>label <span class="sc">==</span> where_loc_i]], </span>
+<span id="cb9-135"><a href="#cb9-135" aria-hidden="true" tabindex="-1"></a>                                                   <span class="at">n_genus =</span> <span class="dv">1</span>, <span class="at">n_spp =</span> <span class="dv">1</span>, <span class="at">only_sp =</span> sp_out_tree<span class="sc">$</span>species[i])</span>
+<span id="cb9-136"><a href="#cb9-136" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb9-137"><a href="#cb9-137" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-138"><a href="#cb9-138" aria-hidden="true" tabindex="-1"></a>      <span class="cf">else</span> {</span>
+<span id="cb9-139"><a href="#cb9-139" aria-hidden="true" tabindex="-1"></a>        where_loc <span class="ot">=</span> root_sub<span class="sc">$</span>only_sp</span>
+<span id="cb9-140"><a href="#cb9-140" aria-hidden="true" tabindex="-1"></a>        new_ht <span class="ot">=</span> root_sub<span class="sc">$</span>basal_time <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> fraction)</span>
+<span id="cb9-141"><a href="#cb9-141" aria-hidden="true" tabindex="-1"></a>        node_hts <span class="ot">=</span> <span class="fu">c</span>(new_ht, node_hts)</span>
+<span id="cb9-142"><a href="#cb9-142" aria-hidden="true" tabindex="-1"></a>        node_label_new <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="fu">length</span>(node_hts))</span>
+<span id="cb9-143"><a href="#cb9-143" aria-hidden="true" tabindex="-1"></a>        <span class="fu">names</span>(node_hts)[<span class="dv">1</span>] <span class="ot">=</span> node_label_new</span>
+<span id="cb9-144"><a href="#cb9-144" aria-hidden="true" tabindex="-1"></a>        all_eligible_nodes <span class="ot">=</span> <span class="fu">c</span>(all_eligible_nodes, </span>
+<span id="cb9-145"><a href="#cb9-145" aria-hidden="true" tabindex="-1"></a>                               node_label_new)</span>
+<span id="cb9-146"><a href="#cb9-146" aria-hidden="true" tabindex="-1"></a>        add_above_node <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-147"><a href="#cb9-147" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>only_sp[idx_row] <span class="ot">=</span> <span class="cn">NA</span></span>
+<span id="cb9-148"><a href="#cb9-148" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>basal_node[idx_row] <span class="ot">=</span> node_label_new</span>
+<span id="cb9-149"><a href="#cb9-149" aria-hidden="true" tabindex="-1"></a>        tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>basal_time[idx_row] <span class="ot">=</span> <span class="fu">unname</span>(new_ht)</span>
+<span id="cb9-150"><a href="#cb9-150" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-151"><a href="#cb9-151" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-152"><a href="#cb9-152" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb9-153"><a href="#cb9-153" aria-hidden="true" tabindex="-1"></a>      where_loc <span class="ot">=</span> root_sub<span class="sc">$</span>basal_node</span>
+<span id="cb9-154"><a href="#cb9-154" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (scenario <span class="sc">==</span> <span class="st">"random_below_basal"</span>) {</span>
+<span id="cb9-155"><a href="#cb9-155" aria-hidden="true" tabindex="-1"></a>        tree_df_sub <span class="ot">=</span> tidytree<span class="sc">::</span><span class="fu">offspring</span>(tree_df, </span>
+<span id="cb9-156"><a href="#cb9-156" aria-hidden="true" tabindex="-1"></a>                                          where_loc)</span>
+<span id="cb9-157"><a href="#cb9-157" aria-hidden="true" tabindex="-1"></a>        tree_df_sub <span class="ot">=</span> tree_df_sub[tree_df_sub<span class="sc">$</span>is_tip <span class="sc">==</span> </span>
+<span id="cb9-158"><a href="#cb9-158" aria-hidden="true" tabindex="-1"></a>                                    <span class="cn">FALSE</span>, ]</span>
+<span id="cb9-159"><a href="#cb9-159" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">nrow</span>(tree_df_sub) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb9-160"><a href="#cb9-160" aria-hidden="true" tabindex="-1"></a>          potential_locs <span class="ot">=</span> <span class="fu">c</span>(where_loc, tree_df_sub<span class="sc">$</span>label)</span>
+<span id="cb9-161"><a href="#cb9-161" aria-hidden="true" tabindex="-1"></a>          bls <span class="ot">=</span> tree_df_sub<span class="sc">$</span>branch.length</span>
+<span id="cb9-162"><a href="#cb9-162" aria-hidden="true" tabindex="-1"></a>          <span class="fu">names</span>(bls) <span class="ot">=</span> tree_df_sub<span class="sc">$</span>label</span>
+<span id="cb9-163"><a href="#cb9-163" aria-hidden="true" tabindex="-1"></a>          bls <span class="ot">=</span> <span class="fu">c</span>(root_sub<span class="sc">$</span>root_time <span class="sc">-</span> root_sub<span class="sc">$</span>basal_time, </span>
+<span id="cb9-164"><a href="#cb9-164" aria-hidden="true" tabindex="-1"></a>                  bls)</span>
+<span id="cb9-165"><a href="#cb9-165" aria-hidden="true" tabindex="-1"></a>          <span class="fu">names</span>(bls)[<span class="dv">1</span>] <span class="ot">=</span> root_sub<span class="sc">$</span>basal_node</span>
+<span id="cb9-166"><a href="#cb9-166" aria-hidden="true" tabindex="-1"></a>          prob <span class="ot">=</span> bls<span class="sc">/</span><span class="fu">sum</span>(bls)</span>
+<span id="cb9-167"><a href="#cb9-167" aria-hidden="true" tabindex="-1"></a>          where_loc <span class="ot">=</span> <span class="fu">sample</span>(potential_locs, <span class="dv">1</span>, <span class="at">prob =</span> prob)</span>
+<span id="cb9-168"><a href="#cb9-168" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb9-169"><a href="#cb9-169" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-170"><a href="#cb9-170" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-171"><a href="#cb9-171" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-172"><a href="#cb9-172" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> {</span>
+<span id="cb9-173"><a href="#cb9-173" aria-hidden="true" tabindex="-1"></a>    sp_out_tree<span class="sc">$</span>status[i] <span class="ot">=</span> <span class="st">"**"</span></span>
+<span id="cb9-174"><a href="#cb9-174" aria-hidden="true" tabindex="-1"></a>    idx_row <span class="ot">=</span> <span class="fu">which</span>(tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>family <span class="sc">==</span> </span>
+<span id="cb9-175"><a href="#cb9-175" aria-hidden="true" tabindex="-1"></a>                      sp_out_tree<span class="sc">$</span>family[i] <span class="sc">&amp;</span> <span class="fu">is.na</span>(tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>genus))</span>
+<span id="cb9-176"><a href="#cb9-176" aria-hidden="true" tabindex="-1"></a>    root_sub <span class="ot">=</span> tree<span class="sc">$</span>genus_family_root[idx_row, ]</span>
+<span id="cb9-177"><a href="#cb9-177" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (root_sub<span class="sc">$</span>n_spp <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb9-178"><a href="#cb9-178" aria-hidden="true" tabindex="-1"></a>      where_loc <span class="ot">=</span> root_sub<span class="sc">$</span>only_sp</span>
+<span id="cb9-179"><a href="#cb9-179" aria-hidden="true" tabindex="-1"></a>      new_ht <span class="ot">=</span> root_sub<span class="sc">$</span>basal_time <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> fraction)</span>
+<span id="cb9-180"><a href="#cb9-180" aria-hidden="true" tabindex="-1"></a>      node_hts <span class="ot">=</span> <span class="fu">c</span>(new_ht, node_hts)</span>
+<span id="cb9-181"><a href="#cb9-181" aria-hidden="true" tabindex="-1"></a>      node_label_new <span class="ot">=</span> <span class="fu">paste0</span>(<span class="st">"N"</span>, <span class="fu">length</span>(node_hts))</span>
+<span id="cb9-182"><a href="#cb9-182" aria-hidden="true" tabindex="-1"></a>      <span class="fu">names</span>(node_hts)[<span class="dv">1</span>] <span class="ot">=</span> node_label_new</span>
+<span id="cb9-183"><a href="#cb9-183" aria-hidden="true" tabindex="-1"></a>      all_eligible_nodes <span class="ot">=</span> <span class="fu">c</span>(all_eligible_nodes, node_label_new)</span>
+<span id="cb9-184"><a href="#cb9-184" aria-hidden="true" tabindex="-1"></a>      add_above_node <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-185"><a href="#cb9-185" aria-hidden="true" tabindex="-1"></a>      tree<span class="sc">$</span>genus_family_root <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">add_row</span>(tree<span class="sc">$</span>genus_family_root, </span>
+<span id="cb9-186"><a href="#cb9-186" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">family =</span> sp_out_tree<span class="sc">$</span>family[i], <span class="at">genus =</span> sp_out_tree<span class="sc">$</span>genus[i], </span>
+<span id="cb9-187"><a href="#cb9-187" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">basal_node =</span> node_label_new, <span class="at">basal_time =</span> <span class="fu">unname</span>(new_ht), </span>
+<span id="cb9-188"><a href="#cb9-188" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">root_node =</span> node_label_new, <span class="at">root_time =</span> <span class="fu">unname</span>(new_ht), </span>
+<span id="cb9-189"><a href="#cb9-189" aria-hidden="true" tabindex="-1"></a>                                               <span class="at">n_genus =</span> <span class="dv">1</span>, <span class="at">n_spp =</span> <span class="dv">1</span>, <span class="at">only_sp =</span> sp_out_tree<span class="sc">$</span>species[i])</span>
+<span id="cb9-190"><a href="#cb9-190" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-191"><a href="#cb9-191" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> {</span>
+<span id="cb9-192"><a href="#cb9-192" aria-hidden="true" tabindex="-1"></a>      where_loc <span class="ot">=</span> root_sub<span class="sc">$</span>basal_node</span>
+<span id="cb9-193"><a href="#cb9-193" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (scenario <span class="sc">==</span> <span class="st">"random_below_basal"</span>) {</span>
+<span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>        tree_df_sub <span class="ot">=</span> tidytree<span class="sc">::</span><span class="fu">offspring</span>(tree_df, </span>
+<span id="cb9-195"><a href="#cb9-195" aria-hidden="true" tabindex="-1"></a>                                          where_loc)</span>
+<span id="cb9-196"><a href="#cb9-196" aria-hidden="true" tabindex="-1"></a>        tree_df_sub <span class="ot">=</span> tree_df_sub[tree_df_sub<span class="sc">$</span>is_tip <span class="sc">==</span> </span>
+<span id="cb9-197"><a href="#cb9-197" aria-hidden="true" tabindex="-1"></a>                                    <span class="cn">FALSE</span>, ]</span>
+<span id="cb9-198"><a href="#cb9-198" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (<span class="fu">nrow</span>(tree_df_sub) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb9-199"><a href="#cb9-199" aria-hidden="true" tabindex="-1"></a>          potential_locs <span class="ot">=</span> <span class="fu">intersect</span>(<span class="fu">c</span>(where_loc, </span>
+<span id="cb9-200"><a href="#cb9-200" aria-hidden="true" tabindex="-1"></a>                                       tree_df_sub<span class="sc">$</span>label), all_eligible_nodes)</span>
+<span id="cb9-201"><a href="#cb9-201" aria-hidden="true" tabindex="-1"></a>          locs_bl <span class="ot">=</span> tree_df_sub[tree_df_sub<span class="sc">$</span>label <span class="sc">%fin%</span> </span>
+<span id="cb9-202"><a href="#cb9-202" aria-hidden="true" tabindex="-1"></a>                                  potential_locs, ]</span>
+<span id="cb9-203"><a href="#cb9-203" aria-hidden="true" tabindex="-1"></a>          bls <span class="ot">=</span> locs_bl<span class="sc">$</span>branch.length</span>
+<span id="cb9-204"><a href="#cb9-204" aria-hidden="true" tabindex="-1"></a>          <span class="fu">names</span>(bls) <span class="ot">=</span> locs_bl<span class="sc">$</span>label</span>
+<span id="cb9-205"><a href="#cb9-205" aria-hidden="true" tabindex="-1"></a>          bls <span class="ot">=</span> <span class="fu">c</span>(root_sub<span class="sc">$</span>root_time <span class="sc">-</span> root_sub<span class="sc">$</span>basal_time, </span>
+<span id="cb9-206"><a href="#cb9-206" aria-hidden="true" tabindex="-1"></a>                  bls)</span>
+<span id="cb9-207"><a href="#cb9-207" aria-hidden="true" tabindex="-1"></a>          <span class="fu">names</span>(bls)[<span class="dv">1</span>] <span class="ot">=</span> root_sub<span class="sc">$</span>basal_node</span>
+<span id="cb9-208"><a href="#cb9-208" aria-hidden="true" tabindex="-1"></a>          prob <span class="ot">=</span> bls<span class="sc">/</span><span class="fu">sum</span>(bls)</span>
+<span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a>          where_loc <span class="ot">=</span> <span class="fu">sample</span>(potential_locs, <span class="dv">1</span>, <span class="at">prob =</span> prob)</span>
+<span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a>    tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>n_genus[idx_row] <span class="ot">=</span> tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>n_genus[idx_row] <span class="sc">+</span> </span>
+<span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span></span>
+<span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-216"><a href="#cb9-216" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (root_sub<span class="sc">$</span>n_spp <span class="sc">&gt;</span> <span class="dv">3</span>) </span>
+<span id="cb9-217"><a href="#cb9-217" aria-hidden="true" tabindex="-1"></a>    use_castor <span class="ot">=</span> <span class="cn">TRUE</span></span>
+<span id="cb9-218"><a href="#cb9-218" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span> use_castor <span class="ot">=</span> <span class="cn">FALSE</span></span>
+<span id="cb9-219"><a href="#cb9-219" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (dt) {</span>
+<span id="cb9-220"><a href="#cb9-220" aria-hidden="true" tabindex="-1"></a>    tree_df <span class="ot">=</span> rtrees<span class="sc">::</span><span class="fu">bind_tip</span>(<span class="at">tree_tbl =</span> tree_df, <span class="at">node_heights =</span> node_hts, </span>
+<span id="cb9-221"><a href="#cb9-221" aria-hidden="true" tabindex="-1"></a>                               <span class="at">where =</span> where_loc, <span class="at">new_node_above =</span> add_above_node, </span>
+<span id="cb9-222"><a href="#cb9-222" aria-hidden="true" tabindex="-1"></a>                               <span class="at">tip_label =</span> sp_out_tree<span class="sc">$</span>species[i], <span class="at">frac =</span> fraction, </span>
+<span id="cb9-223"><a href="#cb9-223" aria-hidden="true" tabindex="-1"></a>                               <span class="at">return_tree =</span> <span class="cn">FALSE</span>, <span class="at">node_label =</span> node_label_new, </span>
+<span id="cb9-224"><a href="#cb9-224" aria-hidden="true" tabindex="-1"></a>                               <span class="at">use_castor =</span> use_castor)</span>
+<span id="cb9-225"><a href="#cb9-225" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-226"><a href="#cb9-226" aria-hidden="true" tabindex="-1"></a>  tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>n_spp[idx_row] <span class="ot">=</span> tree<span class="sc">$</span>genus_family_root<span class="sc">$</span>n_spp[idx_row] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb9-227"><a href="#cb9-227" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-228"><a href="#cb9-228" aria-hidden="true" tabindex="-1"></a>tree_df <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">arrange</span>(tree_df, node)</span>
+<span id="cb9-229"><a href="#cb9-229" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(sp_out_tree<span class="sc">$</span>status <span class="sc">==</span> <span class="st">"*"</span>)) {</span>
+<span id="cb9-230"><a href="#cb9-230" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">sum</span>(sp_out_tree<span class="sc">$</span>status <span class="sc">==</span> <span class="st">"*"</span>), <span class="st">" species added at genus level (*) </span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb9-231"><a href="#cb9-231" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+13 species added at genus level (*) </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(sp_out_tree<span class="sc">$</span>status <span class="sc">==</span> <span class="st">"**"</span>)) {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">sum</span>(sp_out_tree<span class="sc">$</span>status <span class="sc">==</span> <span class="st">"**"</span>), <span class="st">" species added at family level (**) </span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>3 species added at family level (**) </code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>tree_sub <span class="ot">&lt;-</span> tidytree<span class="sc">::</span><span class="fu">as.phylo</span>(tree_df)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>grafted <span class="ot">&lt;-</span> sp_out_tree[sp_out_tree<span class="sc">$</span>status <span class="sc">%fin%</span> <span class="fu">c</span>(<span class="st">"*"</span>, <span class="st">"**"</span>),]</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>grafted<span class="sc">$</span>sp2 <span class="ot">=</span> <span class="fu">paste0</span>(grafted<span class="sc">$</span>species, grafted<span class="sc">$</span>status)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>wid <span class="ot">&lt;-</span> <span class="fu">which</span>(tree_sub<span class="sc">$</span>tip.label <span class="sc">%fin%</span> grafted<span class="sc">$</span>species)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>tree_sub<span class="sc">$</span>tip.label[wid] <span class="ot">=</span> dplyr<span class="sc">::</span><span class="fu">left_join</span>(tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">species =</span> tree_sub<span class="sc">$</span>tip.label[wid]), grafted, <span class="at">by =</span> <span class="st">"species"</span>)<span class="sc">$</span>sp2</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>graft_status <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">tip_label =</span> tree_sub<span class="sc">$</span>tip.label)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>graft_status<span class="sc">$</span>species <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">*"</span>, <span class="st">""</span>, graft_status<span class="sc">$</span>tip_label)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>graft_status<span class="sc">$</span>status <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">*{2}$"</span>,graft_status<span class="sc">$</span>tip_label), </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                              <span class="st">"grafted at family level"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                              <span class="fu">ifelse</span>(<span class="fu">grepl</span>(<span class="st">"[^*]</span><span class="sc">\\</span><span class="st">*{1}$"</span>,graft_status<span class="sc">$</span>tip_label),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"grafted at genus level"</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="st">"exisiting species in the megatree"</span>))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">any</span>(sp_out_tree<span class="sc">$</span>status <span class="sc">==</span> <span class="st">"No co-family species in the mega-tree"</span>)) {</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  sp_no_family <span class="ot">=</span> sp_out_tree<span class="sc">$</span>species[sp_out_tree<span class="sc">$</span>status <span class="sc">==</span><span class="st">"No co-family species in the mega-tree"</span>]</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">message</span>(<span class="fu">length</span>(sp_no_family), </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>          <span class="st">" species have no co-family species in the mega-tree,</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="st">           skipped</span><span class="sc">\n</span><span class="st">(if you know their family,</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="st">           prepare and edit species list with `rtrees::sp_list_df()` may help): </span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>          <span class="fu">paste</span>(sp_no_family, <span class="at">collapse =</span> <span class="st">", "</span>))</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  graft_status <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(graft_status,</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                                   <span class="fu">data.frame</span>(<span class="at">species =</span> sp_no_family, </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">status =</span> <span class="fu">rep</span>(<span class="st">"skipped as no co-family in the megatree"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                                                           <span class="fu">length</span>(sp_no_family))))</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span>show_grafted) {</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  tree_sub <span class="ot">&lt;-</span> <span class="fu">rm_stars</span>(tree_sub)</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>  graft_status<span class="sc">$</span>tip_label <span class="ot">=</span> <span class="fu">gsub</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">*"</span>, <span class="st">""</span>, graft_status<span class="sc">$</span>tip_label)</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>tree_sub<span class="sc">$</span>graft_status <span class="ot">=</span> graft_status</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>tree_sub <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">ladderize</span>(tree_sub)</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="do">## get a list of all genera</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>tips <span class="ot">&lt;-</span> tree_sub<span class="sc">$</span>tip.label</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>genera <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">sapply</span>(<span class="fu">strsplit</span>(tips,<span class="st">"_"</span>),<span class="cf">function</span>(x) x[<span class="dv">1</span>]))</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="do">## now drop all but one species of each genera</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>ii <span class="ot">&lt;-</span> <span class="fu">sapply</span>(genera,<span class="cf">function</span>(x,y) <span class="fu">grep</span>(x,y)[<span class="dv">1</span>],<span class="at">y=</span>tips)</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>tree_oneper_genus <span class="ot">&lt;-</span> ape<span class="sc">::</span><span class="fu">drop.tip</span>(tree_sub,<span class="fu">setdiff</span>(tree_sub<span class="sc">$</span>tip.label,tips[ii]))</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co"># ggtree::ggtree(tree_oneper_genus,layout = "fan")</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>tree_oneper_genus<span class="sc">$</span>tip.label <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">strsplit</span>(tree_oneper_genus<span class="sc">$</span>tip.label,<span class="st">"_"</span>),<span class="cf">function</span>(x) x[<span class="dv">1</span>])</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co"># tree_oneper_genus$tip.label &lt;- </span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">#   ifelse(tree_oneper_genus$tip.label%in%species_list$genus,</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co">#          species_list$species,</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co">#          tree_oneper_genus$tip.label)</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>tab_tree <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(tree_oneper_genus)</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="co"># remove outgroups</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>new_tree <span class="ot">&lt;-</span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>tab_tree <span class="sc">|&gt;</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>  ape<span class="sc">::</span><span class="fu">as.phylo</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>  tidytree<span class="sc">::</span><span class="fu">tree_subset</span>(<span class="at">node=</span><span class="dv">10515</span>)</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>tab_new_tree <span class="ot">&lt;-</span> new_tree <span class="sc">|&gt;</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">is_in_our_dataset=</span><span class="fu">ifelse</span>(label<span class="sc">%in%</span>species_list<span class="sc">$</span>genus,<span class="st">"yes"</span>,<span class="st">"nope"</span>),</span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a>         <span class="at">node_depth=</span> ape<span class="sc">::</span><span class="fu">node.depth</span>(new_tree)) <span class="sc">|&gt;</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">deep_node_label=</span> <span class="fu">ifelse</span>(node_depth<span class="sc">&gt;</span><span class="dv">1</span><span class="sc">&amp;!</span><span class="fu">grepl</span>(<span class="st">"N[0-9]*$|mrcaott.*|ae$"</span>,label),stringr<span class="sc">::</span><span class="fu">str_extract</span>(label,<span class="st">"^[a-zA-Z]*"</span>),<span class="cn">NA</span>))</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>pt1 <span class="ot">&lt;-</span> <span class="fu">ggtree</span>(new_tree)</span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>pt1 <span class="ot">&lt;-</span> pt1 <span class="sc">%&lt;+%</span> tab_new_tree <span class="sc">+</span> </span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a>  ggtree<span class="sc">::</span><span class="fu">geom_tippoint</span>(<span class="fu">aes</span>(<span class="at">color =</span> is_in_our_dataset))<span class="sc">+</span></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a>  ggtree<span class="sc">::</span><span class="fu">geom_nodelab</span>(</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> deep_node_label),</span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"lightgrey"</span>,</span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"label"</span>)</span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>pt1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species). The final tree will be visualized using <a href="https://itol.embl.de/">ITOL</a>. We will save some information to be displayed on ITOL.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># export to nexus for itol</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>phytools<span class="sc">::</span><span class="fu">writeNexus</span>(ape<span class="sc">::</span><span class="fu">as.phylo</span>(tab_new_tree), <span class="at">file=</span><span class="st">"data/plant_phylogeny/nexus_plant.nxs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># get paths that we want to keep</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#subset our species nodes</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  tab_new_tree <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(is_in_our_dataset<span class="sc">==</span><span class="st">"yes"</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="co"># set a null object to store paths</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>path2keep <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># For all our nodes</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(nodez <span class="cf">in</span> test<span class="sc">$</span>node){</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  path2genus <span class="ot">&lt;-</span> ggtree<span class="sc">::</span><span class="fu">get.path</span>(ape<span class="sc">::</span><span class="fu">as.phylo</span>(tab_new_tree),tab_new_tree<span class="sc">$</span>node[<span class="fu">which</span>(tab_new_tree<span class="sc">$</span>parent<span class="sc">==</span>tab_new_tree<span class="sc">$</span>node)],nodez) <span class="co">#path from our species (i.e., a tip) to root</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  path2keep <span class="ot">&lt;-</span> <span class="fu">c</span>(path2keep,path2genus)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>nodez2keep <span class="ot">&lt;-</span> <span class="fu">unique</span>(path2keep)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co"># remove tips and nodes that we want to keep</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>nodeznot2keep <span class="ot">&lt;-</span> tab_new_tree<span class="sc">$</span>label[<span class="sc">!</span>tab_new_tree<span class="sc">$</span>node<span class="sc">%in%</span>nodez2keep] <span class="co">#&amp;tab_new_tree$node_depth!=1</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co"># build nodes for itol visualisation</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_collapse_template.txt"</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_collapse.txt"</span>,</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>itol_nodes <span class="ot">&lt;-</span> <span class="fu">paste0</span>(nodeznot2keep,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_nodes,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_collapse.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Color the leaves corresponding to our species</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>inherseed_species_status <span class="ot">&lt;-</span> readxl<span class="sc">::</span><span class="fu">read_xls</span>(<span class="st">"data/tomography_GEVES/especes INHERSEED.xls"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> test <span class="sc">|&gt;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">genus =</span>label) <span class="sc">|&gt;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(species_list) <span class="sc">|&gt;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">cultivated=</span><span class="fu">ifelse</span>(species_for_tree<span class="sc">%in%</span><span class="fu">filter</span>(inherseed_species_status,CULTIVATED<span class="sc">==</span><span class="dv">1</span>)<span class="sc">$</span>SPECIES,<span class="dv">1</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(genus)`</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># leaf color (cultivated species) for itol </span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_leaf_template.txt"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_color_cultivated.txt"</span>,</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>itol_leaves_cultivated <span class="ot">&lt;-</span> <span class="fu">paste0</span>(test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">1</span>),]<span class="sc">$</span>label,<span class="st">","</span>,<span class="dv">1</span>,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_leaves_cultivated,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_color_cultivated.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co"># leaf color (uncultivated species) for itol </span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_leaf_template.txt"</span>,</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_color_uncultivated.txt"</span>,</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>itol_leaves_uncultivated <span class="ot">&lt;-</span> <span class="fu">paste0</span>(test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">0</span>),]<span class="sc">$</span>label,<span class="st">","</span>,<span class="dv">1</span>,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_leaves_uncultivated,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_color_uncultivated.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>only labels for our species</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save to itol template</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_datatext_template.txt"</span>,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_cultivated.txt"</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>itol_leaves_highlight_cultivated <span class="ot">&lt;-</span> <span class="fu">paste0</span>(test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">1</span>),]<span class="sc">$</span>label,<span class="st">","</span>,test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">1</span>),]<span class="sc">$</span>species_for_tree,<span class="st">","</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="st">","</span>,<span class="st">"#3d6b4b"</span>,<span class="st">","</span>,<span class="st">"bold"</span>,<span class="st">","</span>,<span class="dv">2</span>,<span class="st">","</span>,<span class="dv">0</span>,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_leaves_highlight_cultivated,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_cultivated.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># save to itol template</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_datatext_template.txt"</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_uncultivated.txt"</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>itol_leaves_highlight_uncultivated <span class="ot">&lt;-</span> <span class="fu">paste0</span>(test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">0</span>),]<span class="sc">$</span>label,<span class="st">","</span>,test[<span class="fu">which</span>(test<span class="sc">$</span>cultivated<span class="sc">==</span><span class="dv">0</span>),]<span class="sc">$</span>species_for_tree,<span class="st">","</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="st">","</span>,<span class="st">"#CD6600"</span>,<span class="st">","</span>,<span class="st">"bold"</span>,<span class="st">","</span>,<span class="dv">2</span>,<span class="st">","</span>,<span class="dv">0</span>,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_leaves_highlight_uncultivated,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_uncultivated.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Color clades our species belong to</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clade colors for itol</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># create order palette for itol</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>order_col <span class="ot">&lt;-</span> <span class="fu">c</span>(paletteer<span class="sc">::</span><span class="fu">paletteer_d</span>(<span class="st">"PrettyCols::Autumn"</span>), <span class="co">#16 colors for 16 orders</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#3d6f8a"</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#19705c"</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#5c306b"</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"#5e1924"</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># create dataframe with order/color correspondance</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>order_col <span class="sc">|&gt;</span> </span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_data_frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">order=</span><span class="fu">unique</span>(species_list<span class="sc">$</span>order)) <span class="ot">-&gt;</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  order_col</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `as_data_frame()` was deprecated in tibble 2.0.0.
+ℹ Please use `as_tibble()` (with slightly different semantics) to convert to a
+  tibble, or `as.data.frame()` to convert to a data frame.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge with our dataframe containing labels</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>clade <span class="ot">&lt;-</span> </span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_frame</span>(<span class="at">order_node=</span>tab_new_tree<span class="sc">$</span>label[<span class="fu">which</span>(tab_new_tree<span class="sc">$</span>deep_node_label<span class="sc">%in%</span>test<span class="sc">$</span>order)],</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">order=</span>tab_new_tree<span class="sc">$</span>deep_node_label[<span class="fu">which</span>(tab_new_tree<span class="sc">$</span>deep_node_label<span class="sc">%in%</span>test<span class="sc">$</span>order)]) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(order_col) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `data_frame()` was deprecated in tibble 1.1.0.
+ℹ Please use `tibble()` instead.</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(order)`</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save to itol template</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_strip_template.txt"</span>,</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_strip_order.txt"</span>,</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>itol_orders <span class="ot">&lt;-</span> <span class="fu">paste0</span>(clade<span class="sc">$</span>order_node,<span class="st">"</span><span class="sc">\t</span><span class="st">"</span>,clade<span class="sc">$</span>value,<span class="st">"</span><span class="sc">\t</span><span class="st">"</span>,clade<span class="sc">$</span>order,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_orders,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_strip_order.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>only labels for our species</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save to itol template</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">file.copy</span>(<span class="st">"data/plant_phylogeny/itol/templates/itol_datatext_template.txt"</span>,</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">"data/plant_phylogeny/itol/itol_rules/itol_order_labels.txt"</span>,</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>          <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>itol_order_highlight <span class="ot">&lt;-</span> <span class="fu">paste0</span>(clade<span class="sc">$</span>order_node,<span class="st">","</span>,clade<span class="sc">$</span>order,<span class="st">","</span>,<span class="sc">-</span><span class="dv">1</span>,<span class="st">","</span>,clade<span class="sc">$</span>value,<span class="st">","</span>,<span class="st">"bold"</span>,<span class="st">","</span>,<span class="dv">2</span>,<span class="st">","</span>,<span class="dv">0</span>,<span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write</span>(itol_order_highlight,<span class="at">file=</span><span class="st">"data/plant_phylogeny/itol/itol_rules/itol_order_labels.txt"</span>,<span class="at">append=</span><span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">View</span>(tab_new_tree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 
 
 </section>
