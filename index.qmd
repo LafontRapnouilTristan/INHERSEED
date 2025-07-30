@@ -484,13 +484,50 @@ write(itol_nodes,file="data/plant_phylogeny/itol/itol_rules/itol_collapse.txt",a
 
 Color the leaves corresponding to our species
 ```{r}
-# leaf color for itol
+inherseed_species_status <- readxl::read_xls("data/tomography_GEVES/especes INHERSEED.xls")
+
+test <- test |>
+  mutate(genus =label) |>
+  left_join(species_list) |>
+  mutate(cultivated=ifelse(species_for_tree%in%filter(inherseed_species_status,CULTIVATED==1)$SPECIES,1,0))
+
+# leaf color (cultivated species) for itol 
 file.copy("data/plant_phylogeny/itol/templates/itol_leaf_template.txt",
-          "data/plant_phylogeny/itol/itol_rules/itol_leaf_color.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_leaf_color_cultivated.txt",
           overwrite = T)
-itol_leaves <- paste0(test$label,",",1,collapse = "\n")
-write(itol_leaves,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_color.txt",append=TRUE)
+
+itol_leaves_cultivated <- paste0(test[which(test$cultivated==1),]$label,",",1,collapse = "\n")
+write(itol_leaves_cultivated,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_color_cultivated.txt",append=TRUE)
+
+# leaf color (uncultivated species) for itol 
+file.copy("data/plant_phylogeny/itol/templates/itol_leaf_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_leaf_color_uncultivated.txt",
+          overwrite = T)
+
+itol_leaves_uncultivated <- paste0(test[which(test$cultivated==0),]$label,",",1,collapse = "\n")
+write(itol_leaves_uncultivated,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_color_uncultivated.txt",append=TRUE)
 ```
+
+only labels for our species
+```{r}
+# save to itol template
+file.copy("data/plant_phylogeny/itol/templates/itol_datatext_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_cultivated.txt",
+          overwrite = T)
+
+itol_leaves_highlight_cultivated <- paste0(test[which(test$cultivated==1),]$label,",",test[which(test$cultivated==1),]$species_for_tree,",",-1,",","#3d6b4b",",","bold",",",2,",",0,collapse = "\n")
+write(itol_leaves_highlight_cultivated,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_cultivated.txt",append=TRUE)
+
+
+# save to itol template
+file.copy("data/plant_phylogeny/itol/templates/itol_datatext_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_uncultivated.txt",
+          overwrite = T)
+
+itol_leaves_highlight_uncultivated <- paste0(test[which(test$cultivated==0),]$label,",",test[which(test$cultivated==0),]$species_for_tree,",",-1,",","#CD6600",",","bold",",",2,",",0,collapse = "\n")
+write(itol_leaves_highlight_uncultivated,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_uncultivated.txt",append=TRUE)
+```
+
 
 Color clades our species belong to
 ```{r}
@@ -521,6 +558,17 @@ file.copy("data/plant_phylogeny/itol/templates/itol_strip_template.txt",
  
 itol_orders <- paste0(clade$order_node,"\t",clade$value,"\t",clade$order,collapse = "\n")
 write(itol_orders,file="data/plant_phylogeny/itol/itol_rules/itol_strip_order.txt",append=TRUE)
+```
+
+only labels for our species
+```{r}
+# save to itol template
+file.copy("data/plant_phylogeny/itol/templates/itol_datatext_template.txt",
+          "data/plant_phylogeny/itol/itol_rules/itol_order_labels.txt",
+          overwrite = T)
+
+itol_order_highlight <- paste0(clade$order_node,",",clade$order,",",-1,",",clade$value,",","bold",",",2,",",0,collapse = "\n")
+write(itol_order_highlight,file="data/plant_phylogeny/itol/itol_rules/itol_order_labels.txt",append=TRUE)
 ```
 
 ```{r}
