@@ -16,7 +16,6 @@ conda deactivate
 
 
 ############ Samba protocol ################################
-# create env with conda 3.7 to 3.11 (traitor requirements)
 conda env create -p /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_samba -f venv_samba.yml
 # activate it
 conda activate /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_samba
@@ -24,6 +23,15 @@ conda activate /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_samba
 conda install pip
 # use pip to install traitor from github
 pip install smbclientng
+# deactivate env
+conda deactivate
+#############################################################
+
+
+############ Picrust ################################
+conda env create -p /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_picrust2 -f venv_picrust2.yml
+# activate it
+conda activate /mnt/home2/tlafontrapn/tests/conda_envs/envs/venv_picrust2
 # deactivate env
 conda deactivate
 #############################################################
