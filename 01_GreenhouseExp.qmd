@@ -361,7 +361,9 @@ coord_pca$species <- traitor_output$species
 mul <- arrowMul(as.data.frame(pca_tmp$var$coord),
                 pca_tmp$ind$coord)
 
-
+df_text_pca <- coord_pca |> 
+  dplyr::group_by(species) |> 
+  dplyr::summarise(Dim.1=mean(Dim.1),Dim.2=mean(Dim.2))
   
 pca_traitor <- ggplot()+
   geom_point(coord_pca,mapping=aes(x=Dim.1,y=Dim.2,color=species))+
@@ -370,6 +372,9 @@ pca_traitor <- ggplot()+
   geom_hline(yintercept = 0,lty=2)+
   xlab(paste0("PC1 (",round(eig[1,2],2),"%)"))+
   ylab(paste0("PC2 (",round(eig[2,2],2),"%)"))+
+  ggrepel::geom_text_repel(df_text_pca,mapping=aes(x=Dim.1,y=Dim.2,label=species), 
+                           na.rm = TRUE,
+                           show.legend = F) +
   geom_segment(data= as.data.frame(pca_tmp$var$coord),aes(x = 0, y = 0, xend=mul*Dim.1, yend=mul*Dim.2),
                lineend = "round", 
                linejoin = "round",
