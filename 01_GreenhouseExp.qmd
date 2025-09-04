@@ -822,27 +822,34 @@ data_phenotype |>
 # get all images files
 path <- list.files("data/raw_inputs/P1/leaves_pictures/allpics/",recursive=T)
 
-# extract date they were taken on
-image_info <- exiftoolr::exif_read(paste0("data/raw_inputs/P1/leaves_pictures/allpics/",path),tags = "CreateDate")
-
-# get date, dispatch in batches and set new folder names
-image_info|>
-  mutate(pic_day=as.factor(stringr::str_extract(CreateDate,".*(?=\\s)")))|>
-  mutate(batch=paste0("batch_",as.integer(pic_day)))|>
-  mutate(folder=paste0("data/raw_inputs/P1/leaves_pictures/allpics/",batch),
-         file_name=basename(SourceFile))|>
-  mutate(new_path=paste0(folder,"/",file_name))
-
-# creating the directories
-image_info$folder |>
-  unique() |>
-  map(
-  ~dir.create(.x)
-  )
-
-# move all images in folders according to batch ID (i.e., date taken)
-walk2(image_info$SourceFile, image_info$new_path, ~file.rename(.x, .y))
+# The first time we want to dispatch them according to date of sampling
+  
+# # extract date they were taken on
+# image_info <- exiftoolr::exif_read(paste0("data/raw_inputs/P1/leaves_pictures/allpics/",path),tags = "CreateDate")
+# 
+# # get date, dispatch in batches and set new folder names
+# image_info|>
+#   mutate(pic_day=as.factor(stringr::str_extract(CreateDate,".*(?=\\s)")))|>
+#   mutate(batch=paste0("batch_",as.integer(pic_day)))|>
+#   mutate(folder=paste0("data/raw_inputs/P1/leaves_pictures/allpics/",batch),
+#          file_name=basename(SourceFile))|>
+#   mutate(new_path=paste0(folder,"/",file_name))
+# 
+# # creating the directories
+# image_info$folder |>
+#   unique() |>
+#   map(
+#   ~dir.create(.x)
+#   )
+# 
+# # move all images in folders according to batch ID (i.e., date taken)
+# walk2(image_info$SourceFile, image_info$new_path, ~file.rename(.x, .y))
 ```
+
+```{r}
+image_info <- exiftoolr::exif_read(paste0("data/raw_inputs/P1/leaves_pictures/allpics/",path,tags = c("ExifToolVersion","XResolution","YResolution","ResolutionUnit","ImageSize","Megapixels","CreateDate","FileName","SourceFile")))
+```
+
 
 # G1
 
