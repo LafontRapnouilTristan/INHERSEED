@@ -24,46 +24,45 @@ We compiled as much information as possible regarding these species and their se
 ```{r}
 source("CredentialsAndSecurity/Cryption.R")
 # Load crypting key and credentials
-load("CredentialsAndSecurity/key.RData")
-credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key = key)
-
-# Download file from the cloud
-# Should be run once or when the file is updated
-webdav::webdav_download_file(
-  "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
-  file_path = "INHERSEED/species_INHERSEED.xlsx", #path to the file I want to dl
-  destination_path = "data/", #path to the local folder
-  username = credentials$login, #credentials created beforehand
-  password = credentials$password,
-  verbose = TRUE
-)
-
-webdav::webdav_download_file(
-  "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
-  file_path = "INHERSEED/monitoring_and_info.xlsx", #path to the file I want to dl
-  destination_path = "data/", #path to the local folder
-  username = credentials$login, #credentials created beforehand
-  password = credentials$password,
-  verbose = TRUE
-)
-
+# load("CredentialsAndSecurity/key.RData")
+# credentials <- read.aes(filename = "CredentialsAndSecurity/credentials.txt",key = key)
+# 
+# # Download file from the cloud
+# # Should be run once or when the file is updated
+# webdav::webdav_download_file(
+#   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
+#   file_path = "INHERSEED/species_INHERSEED.xlsx", #path to the file I want to dl
+#   destination_path = "data/", #path to the local folder
+#   username = credentials$login, #credentials created beforehand
+#   password = credentials$password,
+#   verbose = TRUE
+# )
+# 
+# webdav::webdav_download_file(
+#   "https://nextcloud.inrae.fr/remote.php/dav/files/tlafontrapn",  #next cloud webdav adress
+#   file_path = "INHERSEED/monitoring_and_info.xlsx", #path to the file I want to dl
+#   destination_path = "data/", #path to the local folder
+#   username = credentials$login, #credentials created beforehand
+#   password = credentials$password,
+#   verbose = TRUE
+# )
+# 
 data_ordered_seeds <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 2) #list of ordered seeds
 data_cultivated <- readxl::read_xlsx("data/species_INHERSEED.xlsx")
 
-data_ordered_seeds%<>% #create new taxonomy columns
+data_ordered_seeds <- data_ordered_seeds |> #create new taxonomy columns
   mutate(genus=stringr::str_extract(species_for_tree,"^\\S*"),
          species=stringr::str_extract(species_for_tree,"\\S*$"))
-data_ordered_seeds %<>%
-  mutate(species=ifelse(nchar(species)<1,"sp",species))%>%
+data_ordered_seeds <- data_ordered_seeds |>  mutate(species=ifelse(nchar(species)<1,"sp",species))|>
   mutate(species=paste0(genus,"_",species))
-data_ordered_seeds%<>% #convert to numeric, will generate NA because some are text but its temporary
+data_ordered_seeds <- data_ordered_seeds |> #convert to numeric, will generate NA because some are text but its temporary
   mutate(nb_seeds_lot=as.numeric(nb_seeds_lot),
-         weight_1000_seeds_g=as.numeric(weight_1000_seeds_g))%>%
-  arrange(desc(weight_1000_seeds_g))%>%
+         weight_1000_seeds_g=as.numeric(weight_1000_seeds_g))|>
+  arrange(desc(weight_1000_seeds_g))|>
   mutate(species=forcats::fct_inorder(species))
 
 # Seed mass
-data_ordered_seeds%>%
+data_ordered_seeds|>
   ggplot(aes(x=species,y=weight_1000_seeds_g))+
   geom_point()+
   scale_y_log10()+
@@ -72,8 +71,8 @@ data_ordered_seeds%>%
         axis.title.x = element_blank(),
         text = element_text(face="bold"))+
   ylab("1000 seeds weight (g)")+
-  data_ordered_seeds%>%
-  mutate(nb_seeds_needed=0.1/(weight_1000_seeds_g/1000))%>%
+  data_ordered_seeds|>
+  mutate(nb_seeds_needed=0.1/(weight_1000_seeds_g/1000))|>
   ggplot(aes(x=species,y=nb_seeds_needed))+
   geom_point()+
   scale_y_log10()+
@@ -88,13 +87,13 @@ data_ordered_seeds%>%
 data_quantity_seeds <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 5) #seeds sowing and stock tracking
 
 
-data_quantity_seeds%>%
-  group_by(common_name)%>%
+data_quantity_seeds|>
+  group_by(common_name)|>
   summarise(nb_leftovers_seeds=sum(nb_leftovers_seeds),
-            leftover_weight_g=sum(leftover_weight_g))%>%
-  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))%>%
-  arrange(desc(weight_1000_seeds_g))%>%
-  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))%>%
+            leftover_weight_g=sum(leftover_weight_g))|>
+  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))|>
+  arrange(desc(weight_1000_seeds_g))|>
+  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))|>
   ggplot(aes(x=species,y=nb_leftovers_seeds))+
   geom_point()+
   scale_y_log10()+
@@ -103,13 +102,13 @@ data_quantity_seeds%>%
         axis.title.x = element_blank(),
         text = element_text(face="bold"))+
   geom_hline(aes(yintercept = 20),color="darkorchid4")+
-  data_quantity_seeds%>%
-  group_by(common_name)%>%
+  data_quantity_seeds|>
+  group_by(common_name)|>
   summarise(nb_leftovers_seeds=sum(nb_leftovers_seeds),
-            leftover_weight_g=sum(leftover_weight_g))%>%
-  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))%>%
-  arrange(desc(weight_1000_seeds_g))%>%
-  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))%>%
+            leftover_weight_g=sum(leftover_weight_g))|>
+  left_join(select(data_ordered_seeds,common_name,family,genus,species,weight_1000_seeds_g))|>
+  arrange(desc(weight_1000_seeds_g))|>
+  mutate(species=forcats::fct_relevel(species,levels(data_ordered_seeds$species)))|>
   ggplot(aes(x=species,y=leftover_weight_g))+
   geom_point()+
   scale_y_log10()+
@@ -129,7 +128,6 @@ data_cultivated |>
   facet_wrap(~CULTIVATED)
 ```
 
-
 ### TRY
 
 First we identified a set of traits that may be found on the [TRY database](https://www.try-db.org/) [@kattge2019]. TRY requires manual requests and we used R to prepare our requests.
@@ -148,10 +146,10 @@ Then look for our species:
 ```{r}
 #| message: false
 #get our species list
-species_list <- readr::read_tsv("data/species_list_INHERSEED.tsv")
+species_list <- readxl::read_xlsx("data/species_INHERSEED.xlsx")
 #check overlap and merge
 try_sp <- species_list |>
-  rename(scientific_cleaned = species_for_tree)|>
+  rename(scientific_cleaned = SPECIES)|>
   select(scientific_cleaned) |>
   mutate(scientific_cleaned=ifelse(scientific_cleaned=="Legousia veneris","Legousia speculum-veneris",scientific_cleaned))|> #rename that species properly
   na.omit() |>
@@ -206,16 +204,16 @@ Check for all the traits the number of value (e.g., species) we have.
 #| warning: false
 try_release <- readr::read_tsv("data/TRY/release/42134_24072025144043/42134.txt")
 try_release <- try_release |>
-  select(AccSpeciesName, TraitName, StdValue) |>
-  rename(
+  dplyr::select(AccSpeciesName, TraitName, StdValue) |>
+  dplyr::rename(
     species = AccSpeciesName,
     trait = TraitName,
     value = StdValue
   ) |>
-  group_by(species, trait) |>
-  summarise(value = mean(as.numeric(value), na.rm = TRUE)) |>
+  dplyr::group_by(species, trait) |>
+  dplyr::summarise(value = mean(as.numeric(value), na.rm = TRUE)) |>
   tidyr::pivot_wider(values_from = "value", names_from = "trait")|>
-  mutate(across(everything(),~ifelse(.x=="NaN",NA,.x)))
+  dplyr::mutate(across(everything(),~ifelse(.x=="NaN",NA,.x)))
 ```
 
 ```{r}
@@ -223,9 +221,11 @@ try_release <- try_release |>
 #| fig-cap: "% of our species for which we have a value."
 try_release|>
   reshape2::melt(id.vars=c("species"))|>
-  group_by(variable)|>
-  mutate(is_na_var=ifelse(is.na(value),0,1))|>
-  summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
+  dplyr::group_by(variable)|>
+  dplyr::mutate(is_na_var=ifelse(is.na(value),0,1))|>
+  dplyr::summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
+  dplyr::arrange(desc(pct_species_avail)) |>
+  dplyr::mutate(variable=forcats::fct_inorder(variable)) |>
   ggplot(aes(x=pct_species_avail,y=variable))+
   geom_point()+
   theme_minimal()
@@ -236,10 +236,10 @@ Write the list of traits to a new file.
 ```{r}
 try_release|>
   reshape2::melt(id.vars=c("species"))|>
-  group_by(variable)|>
-  mutate(is_na_var=ifelse(is.na(value),0,1))|>
-  summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
-  filter(pct_species_avail>0)|>
+  dplyr::group_by(variable)|>
+  dplyr::mutate(is_na_var=ifelse(is.na(value),0,1))|>
+  dplyr::summarise(pct_species_avail=(sum(is_na_var)/82)*100)|>
+  dplyr::filter(pct_species_avail>0)|>
   readr::write_tsv("data/TRY/release/traits_with_some_values.tsv")
 ```
 
@@ -270,17 +270,176 @@ list_poorly_xtracted_seeds <- fs::dir_ls(path="data/intermediary_outs/G0/images_
   
 traitor_output <- traitor_output |>
   dplyr::filter(!image_name%in%list_poorly_xtracted_seeds)
-  
-# rename some species and samples with wrong EPPO code
-
-traitor_output <-   
-traitor_output |>
-  dplyr::mutate(species=stringr::str_replace_all(species,"CUUPG","CUUPE"),
-         image_name=stringr::str_replace_all(image_name,"CUUPG","CUUPE"))
 ```
 
+We now need to do some scaling to convert traitors pixels measurements to micro and centimeters. We use .czi (macroscope outputs) and .png (traitor inputs) metadata and sizes to properly scale each pictures. Some of the original png (TRZAX and ARBTH) have been splitted in multiple lighter png as they exceeded Traitor pixel number limit.
+
+```{r}
+#Install readczi to xtract .czi metadata: https://www.zeiss.com/microscopy/fr/produits/logiciel/zeiss-zen/format-de-fichier-image-czi.html
+# devtools::install_github("https://github.com/SFB-ELAINE/readCzi",force = T)
+# 
+# require(EBImage)
+# if(! "czifile" %in% reticulate::py_list_packages()$package){
+#   reticulate::py_install("czifile")
+# }
+
+#path to all my czi files (macroscope outputs) - hosted on a Samba NAS 
+dir2czi <- "./../../../../../../run/user/1000/gvfs/smb-share:server=pnas1.stockage.inrae.fr,share=angersnantes-irhs//irhs/irhs-EmerSys/Projets/Acceptés/INHERSEED/Macroscope_traitor/images/czi/"
+
+#path to all my png (traitor inputs)
+dir2pngz <-"./data/raw_inputs/G0/macroscope_seeds/"
+    
+#get path to files
+input_czi_dir <- fs::dir_ls(dir2czi) |> #path to species folders
+  basename()
+
+input_czi_files <- fs::dir_ls(paste0(dir2czi,input_czi_dir)) |> #path to czi (sometimes multiple ciz per species)
+  basename()
+
+input_czi_files <- input_czi_files[which(grepl("^[A-Z]{5}.czi$|^[A-Z]{5}_[0-9]{1}.czi$",input_czi_files))] |> 
+  stringr::str_remove(".czi")
+
+  
+# Get metadata
+  
+# build a frame to store scaling information
+list_scales_czi <- structure(list(image = character(),group = character()),
+                         class = "data.frame")
+
+# Loop over pictures
+for(file_tmp in input_czi_files){
+  
+  path2filetmp <- paste0(dir2czi,gsub("_[0-9]$","",file_tmp),"/",file_tmp,".czi")
+  reticulate::py_require("czifile")
+  # get images metadata
+  directory_of_file <- dirname(path2filetmp)
+  file_name <- basename(path2filetmp)
+  image_name_wo_czi <- gsub("\\.czi", "", file_name)
+  zis <- reticulate::import("czifile")
+  czi_class <- zis$CziFile(path2filetmp)
+  metadata <- czi_class$metadata(czi_class)
+  
+  # Scaling
+  image_width_px_czi <- gsub(pattern = ".+<SizeX>(.+)</SizeX>.+", # image SizeX in metadata is width in px
+                             replacement = "\\1", x = metadata) |>
+                        as.numeric()
+  image_height_px_czi <- gsub(pattern = ".+<SizeY>(.+)</SizeY>.+", # image SizeY in metadata is height in px
+                             replacement = "\\1", x = metadata) |>
+                        as.numeric()
+  
+  umperpx_czi <-  gsub(pattern = ".+<Value>(.+)</Value>.+", # is stored the number of meter/pixels behind tag Value
+                       replacement = "\\1", x = metadata) |>
+                  as.numeric() * 10^6 # Time 10^6 to get micrometers (um)
+  
+  scalebar_length_um <- gsub(pattern = ".+<Text>(.+) µm</Text>.+", # when in the picture we can get the scalebar length in um
+                             replacement = "\\1", x = metadata) |>
+                        as.numeric()
+  
+  X1_scalebar_px_coord <- gsub(pattern = ".+<X1>(.+)</X1>.+", #as well as it Xs coordinates in pixels
+                               replacement = "\\1", x = metadata) |>
+                          as.numeric()
+  
+  X2_scalebar_px_coord <- gsub(pattern = ".+<X2>(.+)</X2>.+",
+                               replacement = "\\1", x = metadata) |>
+                          as.numeric()
+  
+  scalebar_length_px <- X2_scalebar_px_coord - X1_scalebar_px_coord # substraction to get length in px 
+  
+  px2um_czi <- scalebar_length_px/scalebar_length_um #get px per um
+  px2cm_czi <- scalebar_length_px/(scalebar_length_um/10000) #get px per cm
+  
+  # check consistency of two info
+  print(paste0("scale consistency: ", file_tmp," - ", round(px2um_czi,digits=2) == round(1/umperpx_czi,digits=2)))
+  # Build df
+  list_scales_czi <- rbind(list_scales_czi, data.frame(image=file_tmp,
+                                               group=gsub("_[0-9]","",file_tmp),
+                                               image_width_px_czi=image_width_px_czi,
+                                               image_height_px_czi=image_height_px_czi,
+                                               umperpx_czi=umperpx_czi,
+                                               image_width_cm_czi=(image_width_px_czi*umperpx_czi)/10000,
+                                               image_height_cm_czi=(image_height_px_czi*umperpx_czi)/10000,
+                                               px2um=px2um_czi,
+                                               px2cm=px2cm_czi,
+                                               X1_scalebar_px_coord=X1_scalebar_px_coord,
+                                               X2_scalebar_px_coord=X2_scalebar_px_coord,
+                                               scalebar_length_um=scalebar_length_um,
+                                               scalebar_length_px=scalebar_length_px
+                                               ))
+}
+# need to duplicate ARBTH & TRZAX & EROCI in .czi to match the splitted png
+list_scales_czi <- rbind(list_scales_czi, list_scales_czi[rep(which(grepl("ARBTH_",list_scales_czi$image)), 2), ])
+list_scales_czi <- rbind(list_scales_czi, list_scales_czi[rep(which(grepl("TRZAX",list_scales_czi$image)), 2), ])   
+list_scales_czi <- rbind(list_scales_czi, list_scales_czi[rep(which(grepl("EROCI",list_scales_czi$image)), 2), ])   
+list_scales_czi <- list_scales_czi |> 
+  dplyr::group_by(image) |>
+  dplyr::mutate(nimage=dplyr::row_number()-1)|>
+  dplyr::mutate(image = ifelse(grepl("ARBTH|TRZAX|EROCI",image), paste0(image,"_",nimage),image)) |>
+  dplyr::select(-nimage)
+
+# For png files 
+
+#get path to files
+input_png_files <- fs::dir_ls(dir2pngz) |>
+  basename()
+
+input_files2_png <- input_png_files[which(grepl("^[A-Z]{5}.png$|^[A-Z]{5}_[0-9]{1}.png$|^[A-Z]{5}_[0-9]{1}_[0-9]{1}.png$",input_png_files))] |> 
+  stringr::str_remove(".png")
+
+list_scales_png <- structure(list(image_name = character(),
+                                  group = character()),
+                             class = "data.frame")
+  
+for(file_tmp in input_files2_png){
+print(file_tmp)
+path2filetmppng <- paste0(dir2pngz,"/",file_tmp,".png")
+
+metadata_png <- exiftoolr::exif_read(path2filetmppng)
+
+image_width_px_png <- metadata_png$ImageWidth
+image_height_px_png <- metadata_png$ImageHeight
+
+
+list_scales_png <-  rbind(list_scales_png, data.frame(image=file_tmp,
+                                                      group=gsub("_[0-9]","",file_tmp),
+                                                      image_width_px_png=image_width_px_png,
+                                                      image_height_px_png=image_height_px_png
+                                                      ))
+}
+  
+# Use CZI scale and CZI to PNG pixel ratio to find PNG scale
+  # some pixels were lost from CZI to PNG export so we need to find the czi_px to png_px ratio
+list_scales <- list_scales_png |>
+                dplyr::left_join(list_scales_czi)
+list_scales <- list_scales |>
+  dplyr::mutate(ratio_px_czi2png=image_width_px_czi/image_width_px_png,
+                ratio_px_png2czi_pct=(1/ratio_px_czi2png)*100,
+                pxperum_png=image_width_px_png/((image_width_cm_czi)*10000))
+```
+
+```{r}
+# merge
+traitor_output <- traitor_output |>
+  dplyr::left_join(dplyr::rename(dplyr::select(list_scales,-group),group=image))
+  
+# scale
+traitor_output <- traitor_output |>
+    dplyr::mutate(area_scaled=area/((pxperum_png)^2),
+                  perimeter_scaled=perimeter/pxperum_png,
+                  length_scaled=length/pxperum_png,
+                  width_scaled=width/pxperum_png)
+# save cleaned data
+saveRDS(traitor_output,file="./data/final_outs/G0/macroscopy/traitor_measurements/traitor_out_cleaned.rds")
+# check pixel factor
+traitor_output |>
+  dplyr::group_by(group) |>
+  dplyr::summarise(ratio_px_png2czi_pct=mean(ratio_px_png2czi_pct)) |>
+  ggplot(aes(x=group,y=ratio_px_png2czi_pct))+
+  geom_bar(stat="identity")+
+  theme(axis.text.x=element_text(angle=90,vjust=0.5,hjust=.5))
+```
 
 Now we can check the distribution and look for outliers.
+
 ```{r}
 # Function to tag outliers
 is_outlier <- function(x) { 
@@ -289,13 +448,14 @@ is_outlier <- function(x) {
 
   
 sp_clvlnd_traitor_lst <- NULL
-for(sp_tmp in traitor_output$species){  
- for(traitor_traits_tmp in names(traitor_output)[5:11]){
+traits2consider <- names(traitor_output)[c(174:177,11,12)]
+for(sp_tmp in unique(traitor_output$species)){  
+ for(traitor_traits_tmp in traits2consider){
   
   plot_patch <- 
     traitor_output |>
-      dplyr::select(all_of(c(5:11,157,1))) |>
-      tidyr::pivot_longer(cols=c(1:7),
+      dplyr::select(dplyr::all_of(c(traits2consider,"species","image_name"))) |>
+      tidyr::pivot_longer(cols=c(1:6),
       values_to="values",
       names_to="traitor_traits") |>
       dplyr::filter(species%in%sp_tmp,
@@ -314,7 +474,7 @@ for(sp_tmp in traitor_output$species){
                           na.rm = TRUE,
                           show.legend = F) 
   
-  if(traitor_traits_tmp==names(traitor_output)[5:11][1]){
+  if(traitor_traits_tmp==traits2consider[1]){
     patchwork_plots <- plot_patch
   }else{
     patchwork_plots <- patchwork_plots | plot_patch
@@ -327,15 +487,80 @@ for(sp_tmp in traitor_output$species){
   sp_clvlnd_traitor_lst[[sp_tmp]] <- patchwork_plots
 }
 
+  
+for(species_tmp in names(sp_clvlnd_traitor_lst)){
+  ggsave(paste0("data/final_outs/G0/macroscopy/traitor_measurements/bxplot_traitor/boxplot_traitor_",species_tmp,".png"),sp_clvlnd_traitor_lst[[species_tmp]],create.dir=T,width=10)
+}
 ```
 
+```{r}
+traitor_output <- readRDS("./data/final_outs/G0/macroscopy/traitor_measurements/traitor_out_cleaned.rds")
+# were the pictures taken with blue or white background?
+isblueorwhite <- read.csv("./data/raw_inputs/G0/macroscope_seeds/isblueorwhite.csv")
 
+# Get the ratio of poorly extracted seeds silhouette per species
+list_poorly_xtracted_seeds <- fs::dir_ls(path="data/intermediary_outs/G0/images_aligned/",
+  recurse=T,
+  glob="*/extractions/bad_xtractions/*.png") |>
+  basename() |>
+  stringr::str_remove_all(".png$") |>
+  data.frame() |>
+  dplyr::rename(seed_id=1) |>
+  dplyr::mutate(species=stringr::str_extract(seed_id,"[A-Z]{5}")) |>
+  dplyr::summarise(n_bad_xtract=dplyr::n(),.by=species)
 
+list_poorly_xtracted_seeds <- list_poorly_xtracted_seeds |>
+  dplyr::add_row(species="VICFX",n_bad_xtract=0)
+  
+list_well_xtracted_seeds <- fs::dir_ls(path="data/intermediary_outs/G0/images_aligned/",
+  recurse=T,
+  glob="*/extractions/*.png") |>
+  basename() |>
+  stringr::str_remove_all(".png$") |>
+  data.frame() |>
+  dplyr::rename(seed_id=1) |>
+  dplyr::mutate(species=stringr::str_extract(seed_id,"[A-Z]{5}")) |>
+  dplyr::summarise(n_good_xtract=dplyr::n(),.by=species)
+  
+extraction_qual <- list_poorly_xtracted_seeds |>
+  dplyr::left_join(list_well_xtracted_seeds) |>
+  dplyr::mutate(bad_xtraction_pct=(n_bad_xtract/(n_bad_xtract+n_good_xtract))*100)
+  
+# Merge
+traitor_output <- traitor_output |>
+  dplyr::left_join(isblueorwhite) |>
+  dplyr::left_join(extraction_qual)
+rm(isblueorwhite,extraction_qual)
+
+  
+  
+  
+blueorwhite_effect <- 
+traitor_output |>
+  dplyr::mutate(isblueorwhite=ifelse(isblueorwhite==0,"white_bg","blue_bg")) |>
+  dplyr::select("isblueorwhite",
+                "aspect_ratio",
+                "surface_structure",
+                "solidity",
+                "circularity",
+                "area_scaled",
+                "perimeter_scaled",
+                "length_scaled",
+                "width_scaled",
+                "ratio_px_png2czi_pct",
+                "bad_xtraction_pct") |>
+  GGally::ggpairs(aes(color=isblueorwhite),progress=F)+
+  scale_colour_manual(values = c("darkblue","grey40")) +
+  scale_fill_manual(values = c("darkblue","grey40")) 
+```
+
+##### PCA
 
 ```{r}
 # perfom PCA  
 pca_tmp <- traitor_output |> 
-  dplyr::select(all_of(c(5:11,157)))|>
+  dplyr::filter(!is.na(pxperum_png)) |>
+  dplyr::select(all_of(c(174:177,7,10,11,157))) |>
   FactoMineR::PCA(scale.unit = T,
                   graph = F,
                   quali.sup=8)
@@ -357,7 +582,7 @@ arrowMul <- function(arrows, data, at = c(0, 0), fill = 0.75) {
   fill * min(u)
 }
 
-coord_pca$species <- traitor_output$species  
+coord_pca$species <- traitor_output[!is.na(traitor_output$pxperum_png),]$species  
 mul <- arrowMul(as.data.frame(pca_tmp$var$coord),
                 pca_tmp$ind$coord)
 
@@ -400,11 +625,117 @@ scree_plot_var_list <- factoextra::fviz_screeplot(pca_tmp,barfill = "lightgrey",
 pca_traitor+theme(legend.position="none")+scree_plot_var_list
 ```
 
+##### Derived shapes!
+
+Find the seed most representative to its species (closest to PCA barycenter)
+
+```{r}
+seed_rownumbers <- pca_traitor$layers[[1]]$data |>
+  dplyr::select(c(Dim.1,Dim.2,species)) |>
+  dplyr::group_by(species) |>
+  dplyr::mutate(mean_dim1=mean(Dim.1),
+                mean_dim2=mean(Dim.2)) |>
+  dplyr::ungroup() |>
+  dplyr::mutate(dist2mean=sqrt(((mean_dim1)-(Dim.1))^2+((mean_dim2)-(Dim.2))^2),
+                rownumber=dplyr::row_number()) |>
+  dplyr::group_by(species) |>
+  dplyr::slice(which.min(dist2mean))
+```
+
+```{r}
+  
+seed_silhouettes <-  
+traitor_output |>
+  dplyr::select(dplyr::matches("species|^[a-z]_[0-9]{1,2}$")) |>
+  dplyr::slice(seed_rownumbers$rownumber) |>
+  tidyr::pivot_longer(cols = -species,
+                      names_pattern = "(x_|y_)(.*)",
+                      names_to = c(".value","name")) |>
+  dplyr::rename(x=x_,y=y_) |>
+  ggplot(aes(x=x,y=y))+
+  geom_polygon()+
+  facet_wrap(~species)+
+  coord_fixed()+
+  theme(axis.text=element_blank(),
+        axis.title=element_blank(),
+        axis.ticks=element_blank())
+  
+```
+
 ## Tomography
 
 ## Picnometry
 
-## Mass measruements
+## Mass measurements
+
+## CFU
+
+```{r}
+data_cfu <- readxl::read_xlsx("data/raw_inputs/G0/CFU_log/G0_cfu.xlsx")
+  
+data_cfu <- data_cfu |>
+  dplyr::select(dplyr::all_of(c(1:13,23,14:19,24:27))) |> 
+  dplyr::rename(EPPO=Code_EPPO)
+  
+data_cfu <- data_cfu |>
+  dplyr::mutate(cfu_ml=(cfu_count_bac*(10^reading_dilution_bac))/vol_pbs_ml) |>
+  dplyr::mutate(cfu_sample=cfu_ml*vol_pbs_ml) |>
+  dplyr::mutate(cfu_gram=cfu_sample/mass_g) |>
+  dplyr::mutate(nb_seeds=(mass_g/mass_100_seeds)*100) |>
+  dplyr::mutate(nb_seeds=ifelse(Sample_size=="10 graines",10,nb_seeds)) |>
+  dplyr::mutate(cfu_seeds=cfu_sample/nb_seeds)
+```
+
+
+
+  
+```{r}
+data_cfu |> 
+  dplyr::arrange(desc(cfu_seeds)) |>
+  dplyr::mutate(EPPO=as.factor(EPPO)) |>
+  dplyr::mutate(EPPO=forcats::fct_inorder(EPPO)) |>
+  ggplot(aes(x=EPPO,y=cfu_seeds))+
+  geom_boxplot()+
+  theme(axis.text.x=element_text(angle=45,hjust=1,vjust=1))+
+  scale_y_log10()
+```
+
+```{r}
+data_cfu <- data_cfu |>
+  dplyr::mutate(pseudo_min_cfu_ml_bac=(1*(10^lowest_dilution_bac))/vol_pbs_ml,
+                pseudo_min_cfu_ml_fungi=(1*(10^lowest_dilution_fungi))/vol_pbs_ml  ) |>
+  dplyr::mutate(pseudo_min_cfu_sample_bac=pseudo_min_cfu_ml_bac*vol_pbs_ml,
+                pseudo_min_cfu_sample_fungi=pseudo_min_cfu_ml_fungi*vol_pbs_ml) |>
+  dplyr::mutate(pseudo_min_cfu_gram_bac=pseudo_min_cfu_sample_bac/mass_g,
+                pseudo_min_cfu_gram_fungi=pseudo_min_cfu_sample_fungi/mass_g) |>
+  dplyr::mutate(pseudo_min_cfu_seeds_bac=pseudo_min_cfu_sample_bac/nb_seeds,
+                pseudo_min_cfu_seeds_fungi=pseudo_min_cfu_sample_fungi/nb_seeds)
+```
+
+
+```{r}
+data_cfu |>
+  dplyr::left_join(species_list) |>
+  ggplot(aes(x=pseudo_min_cfu_seeds_fungi,y=pseudo_min_cfu_seeds_bac,color=GROUP))+
+  geom_point()+
+  theme(axis.text.x=element_text(angle=45,hjust=1,vjust=1))+
+  geom_abline(intercept=0,slope=1)+
+  scale_y_log10()+
+  scale_x_log10()
+```
+
+```{r}
+data_cfu |>
+  dplyr::left_join(species_list) |>
+  dplyr::arrange(GROUP) |>
+  dplyr::mutate(EPPO=as.factor(EPPO)) |>
+  dplyr::mutate(EPPO=forcats::fct_inorder(EPPO)) |> 
+  ggplot(aes(x=EPPO,y=pseudo_min_cfu_seeds_fungi/pseudo_min_cfu_seeds_bac,color=GROUP))+
+  geom_boxplot()+
+  theme(axis.text.x=element_text(angle=45,hjust=1,vjust=1))+
+  scale_y_log10()
+```
+
 
 # P1
 
@@ -464,19 +795,19 @@ webdav::webdav_download_file(
 # Load data
 data_phenotype <- readxl::read_xlsx("data/raw_inputs/P1/phenotyping/phenotype.xlsx")
   
+data_phenotype <- data_phenotype |>
+  dplyr::mutate(sample_id=gsub("-","_",sample_id),
+         plant_id=gsub("-","_",plant_id)) |>
+  dplyr::mutate(species=gsub("\\s|’","_",common_name)) |>
+  dplyr::mutate(species=gsub("é","e",species)) |>
+  dplyr::mutate(eppo_code=stringr::str_extract(plant_id,"^[A-Z]+"),
+                plant_number=stringr::str_extract(plant_id,"[0-9]{1,2}$"))
 data_phenotype |>
-  mutate(sample_id=gsub("-","_",sample_id),
-         plant_id=gsub("-","_",plant_id)) %>%
-  mutate(species=gsub("\\s|’","_",common_name)) %>%
-  mutate(species=gsub("é","e",species))->
-  data_phenotype
-  
-data_phenotype |>
-  select(-type_of_leaf) |>
-  reshape2::melt(id=c("sampling_date","common_name","eppo_code","plant_number","leaf_id","plant_id","sample_id","species")) |>
-  filter(!variable%in%c(paste0("nb_seeds_fruit_",1:5)))|>
-  # mutate(value=as.numeric(value))|>
-  ggplot(aes(x=common_name,y=value))+
+  dplyr::select(-c(type_of_leaf,sampling_date,common_name,species)) |>
+  reshape2::melt(id=c("eppo_code","plant_number","leaf_id","plant_id","sample_id")) |>
+  dplyr::filter(!variable%in%c(paste0("nb_seeds_fruit_",1:5)))|>
+  dplyr::mutate(value=as.numeric(value))|>
+  ggplot(aes(x=eppo_code,y=value))+
   geom_boxplot()+
   theme(axis.text.x=element_text(angle=65,vjust=1,hjust=1),
   axis.title.x=element_blank())+
