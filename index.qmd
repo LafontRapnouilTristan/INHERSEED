@@ -109,29 +109,24 @@ The full species list:
 
 We focused on non-woody annual species and tried to have a good spread across the Angiosperm phylogeny:
 
-
-
-
-
-
 ```{r}
 #get our species list
-species_list <- readr::read_tsv("data/species_list_INHERSEED.tsv")
-species_list |>
-  mutate(species=species_for_tree,
-         genus=gsub(" ","",stringr::str_remove(species_for_tree,"(?<=\\s).*"))) |>
-  mutate(genus=ifelse(is.na(genus),species,genus)) ->
-  species_list
+species_list <- readxl::read_xlsx("data/species_INHERSEED.xlsx")
+species_list <- species_list |>
+  dplyr::mutate(species=SPECIES,
+         genus=gsub(" ","",stringr::str_remove(SPECIES,"(?<=\\s).*"))) |>
+  dplyr::mutate(genus=ifelse(is.na(genus),species,genus))
 
 #load family info
 ordered_list <- readxl::read_xlsx("data/monitoring_and_info.xlsx",sheet = 2)  |> #
-  select(c(2:5))
+  dplyr::select(c(2:5)) |>
+  dplyr::rename(species=species_for_tree)
 
 #add family
-species_list |>
+species_list <- species_list |>
   left_join(ordered_list) |>
-  unique() ->
-  species_list
+  unique() |>
+  dplyr::mutate(species_for_tree=gsub(" ","_",species))
 
 library(ggtree)
 library(fastmatch)
@@ -190,10 +185,10 @@ if (length(subsp_in_tree)) {
       }
     }
   }
-  sp_out_tree = dplyr::distinct(sp_list[!sp_list$species %fin% 
+  sp_out_tree <- dplyr::distinct(sp_list[!sp_list$species %fin% 
                                           tree$tip.label, ])
 }
-close_sp_specified = close_genus_specified = FALSE
+close_sp_specified <- close_genus_specified <- FALSE
 if ("close_sp" %fin% names(sp_out_tree)) {
   close_sp_specified = TRUE
   sp_out_tree$close_sp = cap_first_letter(gsub(" +", "_", 
@@ -430,6 +425,19 @@ tab_new_tree <- new_tree |>
          node_depth= ape::node.depth(new_tree)) |>
   mutate(deep_node_label= ifelse(node_depth>1&!grepl("N[0-9]*$|mrcaott.*|ae$",label),stringr::str_extract(label,"^[a-zA-Z]*"),NA))
 
+# a tree with only our species
+tree_only_our_sp <- tab_new_tree |>
+  ape::as.phylo() |>
+  ape::drop.tip(tip=tab_new_tree$label[!tab_new_tree$label%in%sp_list$genus])
+# 
+# tree_augustin$tip.label <- species_list$SPECIES[match(tree_augustin$tip.label,species_list$GENUS)]
+# 
+# tree_augustin <- phytools::bind.tip(tree_augustin,
+#                    tip.label = "Impatiens balsamina", #add Impatiens balsamina to the tree
+#                    edge.length = 0,
+#                    where = 16) 
+
+# Plot trees
 
 pt1 <- ggtree(new_tree)
 
@@ -444,15 +452,13 @@ pt1 <- pt1 %<+% tab_new_tree +
 pt1
 ```
 
-This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species). 
-The final tree will be visualized using [ITOL](https://itol.embl.de/).
-We will save some information to be displayed on ITOL.
+This is a very large tree and we want to remove all non necessary nodes (collapse all node that are not ancestors of one of our species). The final tree will be visualized using [ITOL](https://itol.embl.de/). We will save some information to be displayed on ITOL.
 
 ```{r}
 # export to nexus for itol
 phytools::writeNexus(ape::as.phylo(tab_new_tree), file="data/plant_phylogeny/nexus_plant.nxs")
+phytools::writeNexus(tree_only_our_sp, file="data/plant_phylogeny/nexus_our_species.nxs")
 ```
-
 
 ```{r}
 # get paths that we want to keep
@@ -483,6 +489,7 @@ write(itol_nodes,file="data/plant_phylogeny/itol/itol_rules/itol_collapse.txt",a
 ```
 
 Color the leaves corresponding to our species
+
 ```{r}
 inherseed_species_status <- readxl::read_xls("data/tomography_GEVES/especes INHERSEED.xls")
 
@@ -509,6 +516,7 @@ write(itol_leaves_uncultivated,file="data/plant_phylogeny/itol/itol_rules/itol_l
 ```
 
 only labels for our species
+
 ```{r}
 # save to itol template
 file.copy("data/plant_phylogeny/itol/templates/itol_datatext_template.txt",
@@ -528,8 +536,8 @@ itol_leaves_highlight_uncultivated <- paste0(test[which(test$cultivated==0),]$la
 write(itol_leaves_highlight_uncultivated,file="data/plant_phylogeny/itol/itol_rules/itol_leaf_labels_uncultivated.txt",append=TRUE)
 ```
 
-
 Color clades our species belong to
+
 ```{r}
 # clade colors for itol
 # create order palette for itol
@@ -561,6 +569,7 @@ write(itol_orders,file="data/plant_phylogeny/itol/itol_rules/itol_strip_order.tx
 ```
 
 only labels for our species
+
 ```{r}
 # save to itol template
 file.copy("data/plant_phylogeny/itol/templates/itol_datatext_template.txt",
@@ -575,9 +584,6 @@ write(itol_order_highlight,file="data/plant_phylogeny/itol/itol_rules/itol_order
 View(tab_new_tree)
 ```
 
-
 ```{r}
 
 ```
-
-
