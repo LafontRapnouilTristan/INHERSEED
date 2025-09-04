@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=10GB
-#SBATCH --time=05:00:00
+#SBATCH --time=07:00:00
 #SBATCH --mail-user=tristan.lafontrapnouil@inrae.fr
 #SBATCH --mail-type=ALL
 
@@ -28,12 +28,17 @@ traitor -h
 echo "run extraction"
 traitor extract -i "./images" -o "./images_extracted" -u -b --rm_bg -p 10
 
-# Run alignement
+# Run alignement!
 echo "run alignement"
 traitor align -i "./images" -m "./images_extracted" -o "./images_aligned"
 
 # Run measurements
 echo "run measurements"
 traitor measure -i "./images_aligned" -o "./objects_measurements.csv" -n 8 -t 8
+
+# Compress outputs
+echo "compress outputs"
+tar -zcvf ./images_extracted.tar.gz ./images_extracted
+tar -zcvf ./images_aligned.tar.gz ./images_aligned
 
 echo "end script"
